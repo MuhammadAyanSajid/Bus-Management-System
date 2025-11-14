@@ -1,0 +1,5 @@
+R001,Downtown,Airport,Central Station|Mall Plaza|Highway Exit 5|Airport Terminal,90
+R002,University,Beach,Campus Gate|City Center|Marina|Beach Resort,120
+R003,North Station,South Terminal,Industrial Area|Main Square|Shopping District|South Terminal,75
+R004,East Side,West End,Park Avenue|Downtown|River Bridge|West End Plaza,60
+R005,Suburb A,Downtown,Residential Area|School Zone|Business District|Central Park,45

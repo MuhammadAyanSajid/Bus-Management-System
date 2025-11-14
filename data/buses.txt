@@ -1,0 +1,5 @@
+B001,50,Volvo 9700,Active
+B002,45,Mercedes-Benz Travego,Active
+B003,55,Scania Touring,Maintenance
+B004,40,Yutong ZK6122H,Active
+B005,48,MAN Lion's Coach,Inactive
