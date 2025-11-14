@@ -1,7 +1,27 @@
 # Bus Management System
 
 ## Project Overview
-A comprehensive Bus Management System implemented in C++ for managing bus operations, including routes, schedules, drivers, and user authentication.
+A comprehensive Bus Management System implemented in C++ for managing bus operations, including routes, schedules, drivers, and user authentication. This system provides separate interfaces for administrators, drivers, and passengers with full CRUD (Create, Read, Update, Delete) operations.
+
+## Features
+
+### Admin Features
+- **Route Management**: Add, update, delete, and view routes
+- **Bus Management**: Manage bus fleet with status tracking
+- **Driver Management**: Handle driver information and profiles
+- **Schedule Management**: Create and manage trip schedules with overlap detection
+- **Validation**: Automatic validation of all inputs and business rules
+
+### Driver Features
+- **View Assigned Schedules**: Check schedules for specific dates
+- **Profile Management**: View and update personal information
+- **Day Off Requests**: Submit requests for time off
+- **Bus Information**: View details of assigned buses
+
+### Passenger Features
+- **Route Search**: Find routes by origin, destination, or stops
+- **Travel Time Information**: View estimated travel times
+- **Public Access**: No login required for passenger services
 
 ## Project Structure
 ```
@@ -157,32 +177,80 @@ The current main.cpp tests all Sprint 1 functionality:
 
 ## Upcoming Sprints
 
-### Sprint 2: Admin CRUD & Login (Next)
-- Login system with authentication
-- Admin dashboard
-- CRUD operations for Routes, Buses, Drivers
-- Input validation
+### Sprint 2: Admin CRUD & Login (COMPLETED) ✓
+- ✓ Login system with authentication
+- ✓ Admin dashboard
+- ✓ CRUD operations for Routes, Buses, Drivers
+- ✓ Input validation
+- ✓ Data persistence to CSV files
 
-### Sprint 3: Scheduling & Driver Logic
-- CRUD for Trip Schedules
-- Overlap detection (bus and driver)
-- Driver-specific functionalities
-- Driver dashboard
+### Sprint 3: Scheduling & Driver Logic (COMPLETED) ✓
+- ✓ CRUD for Trip Schedules
+- ✓ Overlap detection (bus and driver)
+- ✓ Driver-specific functionalities
+- ✓ Driver dashboard
 
-### Sprint 4: Passenger & Reporting
-- Passenger menu (no login required)
-- Route search functionality
-- Operational reports
+### Sprint 4: Passenger & Reporting (COMPLETED) ✓
+- ✓ Passenger menu (no login required)
+- ✓ Route search functionality
+- ✓ Travel time information
 
-### Sprint 5: Integration & Testing
+### Sprint 5: Integration & Testing (IN PROGRESS)
 - End-to-end testing
 - Bug fixes
 - Performance optimization
 
-### Sprint 6: Deployment & Finalization
+### Sprint 6: Deployment & Finalization (UPCOMING)
 - Final polish
 - Documentation
 - Deployment preparation
+
+## Default Login Credentials
+
+### Admin Account
+- Username: `admin`
+- Password: `admin123`
+
+### Driver Accounts
+- Username: `D101` | Password: `driver101`
+- Username: `D102` | Password: `driver102`
+
+## Usage Guide
+
+### For Administrators
+1. Login with admin credentials
+2. Select management option (Routes/Buses/Drivers/Schedules)
+3. Perform CRUD operations
+4. Changes are automatically saved to data files
+
+### For Drivers
+1. Login with driver credentials (use Driver ID as username)
+2. View assigned schedules
+3. Update contact information
+4. Submit day-off requests
+5. View bus details
+
+### For Passengers
+1. Select "Passenger Services" from main menu
+2. Search for routes
+3. View travel times
+4. No login required
+
+## Technical Details
+
+### Business Rules Implemented
+- **Schedule Validation**: Prevents overlapping bus assignments
+- **Driver Validation**: Prevents overlapping driver assignments
+- **Reference Validation**: Ensures routes, buses, and drivers exist before creating schedules
+- **Time Validation**: Ensures departure time is before arrival time
+- **Input Validation**: Validates all user inputs before processing
+
+### Data Persistence
+All changes made through the system are immediately saved to CSV files:
+- Bus changes → `data/buses.txt`
+- Driver changes → `data/drivers.txt`
+- Route changes → `data/routes.txt`
+- Schedule changes → `data/schedules.txt`
 
 ## Development Team
 - Team Members: 2024-CS-661, 2024-CS-667, 2024-CS-677
