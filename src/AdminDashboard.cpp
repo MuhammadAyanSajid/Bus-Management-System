@@ -1,197 +1,182 @@
 #include "../include/AdminDashboard.h"
-#include <iostream>
-#include <limits>
-#include <sstream>
-#include <algorithm>
-#include <regex>
+#include <cstdlib>
 
-// Constructor
 AdminDashboard::AdminDashboard(RouteManager &rm, BusManager &bm, DriverManager &dm, ScheduleManager &sm, User *adminUser)
     : routeManager(rm), busManager(bm), driverManager(dm), scheduleManager(sm), admin(adminUser) {}
 
-// Helper function to trim whitespace
-static std::string trim(const std::string &str)
+static string trim(const string &str)
 {
     size_t first = str.find_first_not_of(" \t\n\r");
-    if (first == std::string::npos)
+    if (first == string::npos)
         return "";
     size_t last = str.find_last_not_of(" \t\n\r");
     return str.substr(first, (last - first + 1));
 }
 
-// Validate ID format (alphanumeric, no spaces, 1-20 chars)
-static bool validateId(const std::string &id)
+static bool validateId(const string &id)
 {
-    std::string trimmedId = trim(id);
+    string trimmedId = trim(id);
     if (trimmedId.empty() || trimmedId.length() > 20)
     {
-        std::cout << "Error: ID must be 1-20 characters long and cannot be empty." << std::endl;
+        cout << "Error: ID must be 1-20 characters long and cannot be empty." << endl;
         return false;
     }
-    if (trimmedId.find(' ') != std::string::npos)
+    if (trimmedId.find(' ') != string::npos)
     {
-        std::cout << "Error: ID cannot contain spaces." << std::endl;
+        cout << "Error: ID cannot contain spaces." << endl;
         return false;
     }
     return true;
 }
 
-// Validate non-empty string
-static bool validateNotEmpty(const std::string &str, const std::string &fieldName)
+static bool validateNotEmpty(const string &str, const string &fieldName)
 {
-    std::string trimmedStr = trim(str);
+    string trimmedStr = trim(str);
     if (trimmedStr.empty())
     {
-        std::cout << "Error: " << fieldName << " cannot be empty." << std::endl;
+        cout << "Error: " << fieldName << " cannot be empty." << endl;
         return false;
     }
     return true;
 }
 
-// Validate date format (YYYY-MM-DD)
-static bool validateDate(const std::string &date)
+static bool validateDate(const string &date)
 {
-    std::regex dateRegex(R"(^\d{4}-\d{2}-\d{2}$)");
-    if (!std::regex_match(date, dateRegex))
+    regex dateRegex(R"(^\d{4}-\d{2}-\d{2}$)");
+    if (!regex_match(date, dateRegex))
     {
-        std::cout << "Error: Date must be in YYYY-MM-DD format (e.g., 2025-11-16)." << std::endl;
+        cout << "Error: Date must be in YYYY-MM-DD format (e.g., 2025-11-16)." << endl;
         return false;
     }
-    // Basic validation of month and day ranges
-    int year = std::stoi(date.substr(0, 4));
-    int month = std::stoi(date.substr(5, 2));
-    int day = std::stoi(date.substr(8, 2));
+    int year = stoi(date.substr(0, 4));
+    int month = stoi(date.substr(5, 2));
+    int day = stoi(date.substr(8, 2));
     if (month < 1 || month > 12)
     {
-        std::cout << "Error: Month must be between 01 and 12." << std::endl;
+        cout << "Error: Month must be between 01 and 12." << endl;
         return false;
     }
     if (day < 1 || day > 31)
     {
-        std::cout << "Error: Day must be between 01 and 31." << std::endl;
+        cout << "Error: Day must be between 01 and 31." << endl;
         return false;
     }
     if (year < 2000 || year > 2100)
     {
-        std::cout << "Error: Year must be between 2000 and 2100." << std::endl;
+        cout << "Error: Year must be between 2000 and 2100." << endl;
         return false;
     }
     return true;
 }
 
-// Validate time format (HH:MM)
-static bool validateTime(const std::string &time)
+static bool validateTime(const string &time)
 {
-    std::regex timeRegex(R"(^([0-1]\d|2[0-3]):([0-5]\d)$)");
-    if (!std::regex_match(time, timeRegex))
+    regex timeRegex(R"(^([0-1]\d|2[0-3]):([0-5]\d)$)");
+    if (!regex_match(time, timeRegex))
     {
-        std::cout << "Error: Time must be in HH:MM format (e.g., 14:30, 09:00)." << std::endl;
+        cout << "Error: Time must be in HH:MM format (e.g., 14:30, 09:00)." << endl;
         return false;
     }
     return true;
 }
 
-// Validate status
-static bool validateStatus(const std::string &status)
+static bool validateStatus(const string &status)
 {
-    std::string upperStatus = status;
-    std::transform(upperStatus.begin(), upperStatus.end(), upperStatus.begin(), ::toupper);
+    string upperStatus = status;
+    transform(upperStatus.begin(), upperStatus.end(), upperStatus.begin(), ::toupper);
     if (upperStatus != "ACTIVE" && upperStatus != "MAINTENANCE" && upperStatus != "INACTIVE")
     {
-        std::cout << "Error: Status must be Active, Maintenance, or Inactive." << std::endl;
+        cout << "Error: Status must be Active, Maintenance, or Inactive." << endl;
         return false;
     }
     return true;
 }
 
-// Validate positive integer
-static bool validatePositiveInt(int value, const std::string &fieldName)
+static bool validatePositiveInt(int value, const string &fieldName)
 {
     if (value <= 0)
     {
-        std::cout << "Error: " << fieldName << " must be a positive number." << std::endl;
+        cout << "Error: " << fieldName << " must be a positive number." << endl;
         return false;
     }
     return true;
 }
 
-// Validate contact info (basic phone/email format)
-static bool validateContact(const std::string &contact)
+static bool validateContact(const string &contact)
 {
-    std::string trimmedContact = trim(contact);
+    string trimmedContact = trim(contact);
     if (trimmedContact.empty())
     {
-        std::cout << "Error: Contact information cannot be empty." << std::endl;
+        cout << "Error: Contact information cannot be empty." << endl;
         return false;
     }
     if (trimmedContact.length() < 7)
     {
-        std::cout << "Error: Contact information seems too short. Please provide valid phone or email." << std::endl;
+        cout << "Error: Contact information seems too short. Please provide valid phone or email." << endl;
         return false;
     }
     return true;
 }
 
-// Clear input buffer
 void AdminDashboard::clearInputBuffer()
 {
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-// Get string input
-std::string AdminDashboard::getInput(const std::string &prompt)
+string AdminDashboard::getInput(const string &prompt)
 {
-    std::string input;
-    std::cout << prompt;
-    std::getline(std::cin, input);
+    string input;
+    cout << prompt;
+    getline(cin, input);
     return input;
 }
 
-// Get integer input
-int AdminDashboard::getIntInput(const std::string &prompt)
+int AdminDashboard::getIntInput(const string &prompt)
 {
     int value;
     while (true)
     {
-        std::cout << prompt;
-        if (std::cin >> value)
+        cout << prompt;
+        if (cin >> value)
         {
             clearInputBuffer();
             return value;
         }
         else
         {
-            std::cout << "Invalid input. Please enter a number." << std::endl;
+            cout << "Invalid input. Please enter a number." << endl;
             clearInputBuffer();
         }
     }
 }
 
-// Display main menu
 void AdminDashboard::displayMenu() const
 {
-    std::cout << "\n========================================" << std::endl;
-    std::cout << "       ADMIN DASHBOARD" << std::endl;
-    std::cout << "========================================" << std::endl;
-    std::cout << "1. Manage Routes" << std::endl;
-    std::cout << "2. Manage Schedules" << std::endl;
-    std::cout << "3. Manage Buses" << std::endl;
-    std::cout << "4. Manage Drivers" << std::endl;
-    std::cout << "5. Logout" << std::endl;
-    std::cout << "========================================" << std::endl;
+    cout << "\n========================================" << endl;
+    cout << "       ADMIN DASHBOARD" << endl;
+    cout << "========================================" << endl;
+    cout << "1. Manage Routes" << endl;
+    cout << "2. Manage Schedules" << endl;
+    cout << "3. Manage Buses" << endl;
+    cout << "4. Manage Drivers" << endl;
+    cout << "5. Logout" << endl;
+    cout << "========================================" << endl;
 }
 
-// Main dashboard loop
 void AdminDashboard::show()
 {
     int choice;
     bool running = true;
 
-    std::cout << "\nWelcome to Admin Dashboard, " << admin->getUsername() << "!" << std::endl;
+    system("cls");
+    cout << "\nWelcome to Admin Dashboard, " << admin->getUsername() << "!" << endl;
+    cout << "\nPress Enter to continue...";
+    cin.get();
 
     while (running)
     {
+        system("cls");
         displayMenu();
         choice = getIntInput("Enter your choice: ");
 
@@ -210,16 +195,16 @@ void AdminDashboard::show()
             manageDrivers();
             break;
         case 5:
-            std::cout << "\nLogging out..." << std::endl;
+            system("cls");
+            cout << "\nLogging out..." << endl;
             running = false;
             break;
         default:
-            std::cout << "Invalid choice. Please try again." << std::endl;
+            cout << "Invalid choice. Please try again." << endl;
         }
     }
 }
 
-// Manage Routes
 void AdminDashboard::manageRoutes()
 {
     int choice;
@@ -227,12 +212,13 @@ void AdminDashboard::manageRoutes()
 
     while (!back)
     {
-        std::cout << "\n--- Manage Routes ---" << std::endl;
-        std::cout << "1. View All Routes" << std::endl;
-        std::cout << "2. Add Route" << std::endl;
-        std::cout << "3. Update Route" << std::endl;
-        std::cout << "4. Remove Route" << std::endl;
-        std::cout << "5. Back to Main Menu" << std::endl;
+        system("cls");
+        cout << "\n--- Manage Routes ---" << endl;
+        cout << "1. View All Routes" << endl;
+        cout << "2. Add Route" << endl;
+        cout << "3. Update Route" << endl;
+        cout << "4. Remove Route" << endl;
+        cout << "5. Back to Main Menu" << endl;
 
         choice = getIntInput("Enter your choice: ");
 
@@ -254,74 +240,66 @@ void AdminDashboard::manageRoutes()
             back = true;
             break;
         default:
-            std::cout << "Invalid choice." << std::endl;
+            cout << "Invalid choice." << endl;
         }
     }
 }
 
-// View Routes
 void AdminDashboard::viewRoutes()
 {
-    std::cout << "\n";
+    cout << "\n";
     routeManager.displayAllRoutes();
 }
 
-// Add Route
 void AdminDashboard::addRoute()
 {
-    std::cout << "\n--- Add New Route ---" << std::endl;
+    system("cls");
+    cout << "\n--- Add New Route ---" << endl;
 
     clearInputBuffer();
 
-    // Validate ID
-    std::string id;
+    string id;
     do
     {
         id = trim(getInput("Enter Route ID: "));
     } while (!validateId(id));
 
-    // Validate origin
-    std::string origin;
+    string origin;
     do
     {
         origin = trim(getInput("Enter Origin: "));
     } while (!validateNotEmpty(origin, "Origin"));
 
-    // Validate destination
-    std::string destination;
+    string destination;
     do
     {
         destination = trim(getInput("Enter Destination: "));
     } while (!validateNotEmpty(destination, "Destination"));
 
-    // Check origin != destination
     if (origin == destination)
     {
-        std::cout << "Error: Origin and Destination cannot be the same." << std::endl;
+        cout << "Error: Origin and Destination cannot be the same." << endl;
         return;
     }
 
-    // Validate stops
-    std::string stopsInput;
+    string stopsInput;
     do
     {
         stopsInput = trim(getInput("Enter Key Stops (separated by |): "));
     } while (!validateNotEmpty(stopsInput, "Key Stops"));
 
-    // Validate travel time
     int travelTime;
     do
     {
         travelTime = getIntInput("Enter Estimated Travel Time (minutes): ");
     } while (!validatePositiveInt(travelTime, "Travel Time"));
 
-    // Parse stops
-    std::vector<std::string> stops;
-    std::stringstream ss(stopsInput);
-    std::string stop;
-    while (std::getline(ss, stop, '|'))
+    vector<string> stops;
+    stringstream ss(stopsInput);
+    string stop;
+    while (getline(ss, stop, '|'))
     {
-        std::string trimmedStop = trim(stop);
+        string trimmedStop = trim(stop);
         if (!trimmedStop.empty())
         {
             stops.push_back(trimmedStop);
@@ -330,7 +308,7 @@ void AdminDashboard::addRoute()
 
     if (stops.empty())
     {
-        std::cout << "Error: At least one key stop is required." << std::endl;
+        cout << "Error: At least one key stop is required." << endl;
         return;
     }
 
@@ -338,41 +316,39 @@ void AdminDashboard::addRoute()
     routeManager.addRoute(newRoute);
 }
 
-// Update Route
 void AdminDashboard::updateRoute()
 {
-    std::cout << "\n--- Update Route ---" << std::endl;
+    system("cls");
+    cout << "\n--- Update Route ---" << endl;
 
     clearInputBuffer();
-    std::string id = getInput("Enter Route ID to update: ");
+    string id = getInput("Enter Route ID to update: ");
 
     Route *route = routeManager.findRoute(id);
     if (!route)
     {
-        std::cout << "Route not found." << std::endl;
+        cout << "Route not found." << endl;
         return;
     }
 
-    std::cout << "\nCurrent Route Information:" << std::endl;
+    cout << "\nCurrent Route Information:" << endl;
     routeManager.displayAllRoutes();
 
-    std::string origin = trim(getInput("Enter New Origin (or press Enter to keep current): "));
-    std::string destination = trim(getInput("Enter New Destination (or press Enter to keep current): "));
-    std::string stopsInput = trim(getInput("Enter New Key Stops (separated by | or press Enter to keep current): "));
+    string origin = trim(getInput("Enter New Origin (or press Enter to keep current): "));
+    string destination = trim(getInput("Enter New Destination (or press Enter to keep current): "));
+    string stopsInput = trim(getInput("Enter New Key Stops (separated by | or press Enter to keep current): "));
 
-    std::cout << "Enter New Travel Time (or 0 to keep current): ";
+    cout << "Enter New Travel Time (or 0 to keep current): ";
     int travelTime;
-    std::cin >> travelTime;
+    cin >> travelTime;
     clearInputBuffer();
 
-    // Validate travel time if provided
     if (travelTime < 0)
     {
-        std::cout << "Error: Travel time cannot be negative." << std::endl;
+        cout << "Error: Travel time cannot be negative." << endl;
         return;
     }
 
-    // Update only if new values provided
     if (!origin.empty())
     {
         if (validateNotEmpty(origin, "Origin"))
@@ -389,12 +365,12 @@ void AdminDashboard::updateRoute()
     }
     if (!stopsInput.empty())
     {
-        std::vector<std::string> stops;
-        std::stringstream ss(stopsInput);
-        std::string stop;
-        while (std::getline(ss, stop, '|'))
+        vector<string> stops;
+        stringstream ss(stopsInput);
+        string stop;
+        while (getline(ss, stop, '|'))
         {
-            std::string trimmedStop = trim(stop);
+            string trimmedStop = trim(stop);
             if (!trimmedStop.empty())
             {
                 stops.push_back(trimmedStop);
@@ -409,26 +385,25 @@ void AdminDashboard::updateRoute()
     routeManager.updateRoute(id, *route);
 }
 
-// Remove Route
 void AdminDashboard::removeRoute()
 {
-    std::cout << "\n--- Remove Route ---" << std::endl;
+    system("cls");
+    cout << "\n--- Remove Route ---" << endl;
 
     clearInputBuffer();
-    std::string id = getInput("Enter Route ID to remove: ");
+    string id = getInput("Enter Route ID to remove: ");
 
-    std::string confirm = getInput("Are you sure you want to remove this route? (yes/no): ");
+    string confirm = getInput("Are you sure you want to remove this route? (yes/no): ");
     if (confirm == "yes" || confirm == "y")
     {
         routeManager.removeRoute(id);
     }
     else
     {
-        std::cout << "Operation cancelled." << std::endl;
+        cout << "Operation cancelled." << endl;
     }
 }
 
-// Manage Buses
 void AdminDashboard::manageBuses()
 {
     int choice;
@@ -436,12 +411,13 @@ void AdminDashboard::manageBuses()
 
     while (!back)
     {
-        std::cout << "\n--- Manage Buses ---" << std::endl;
-        std::cout << "1. View All Buses" << std::endl;
-        std::cout << "2. Add Bus" << std::endl;
-        std::cout << "3. Update Bus" << std::endl;
-        std::cout << "4. Remove Bus" << std::endl;
-        std::cout << "5. Back to Main Menu" << std::endl;
+        system("cls");
+        cout << "\n--- Manage Buses ---" << endl;
+        cout << "1. View All Buses" << endl;
+        cout << "2. Add Bus" << endl;
+        cout << "3. Update Bus" << endl;
+        cout << "4. Remove Bus" << endl;
+        cout << "5. Back to Main Menu" << endl;
 
         choice = getIntInput("Enter your choice: ");
 
@@ -463,33 +439,30 @@ void AdminDashboard::manageBuses()
             back = true;
             break;
         default:
-            std::cout << "Invalid choice." << std::endl;
+            cout << "Invalid choice." << endl;
         }
     }
 }
 
-// View Buses
 void AdminDashboard::viewBuses()
 {
-    std::cout << "\n";
+    cout << "\n";
     busManager.displayAllBuses();
 }
 
-// Add Bus
 void AdminDashboard::addBus()
 {
-    std::cout << "\n--- Add New Bus ---" << std::endl;
+    system("cls");
+    cout << "\n--- Add New Bus ---" << endl;
 
     clearInputBuffer();
 
-    // Validate ID
-    std::string id;
+    string id;
     do
     {
         id = trim(getInput("Enter Bus ID: "));
     } while (!validateId(id));
 
-    // Validate capacity
     int capacity;
     do
     {
@@ -498,15 +471,13 @@ void AdminDashboard::addBus()
 
     clearInputBuffer();
 
-    // Validate model
-    std::string model;
+    string model;
     do
     {
         model = trim(getInput("Enter Model: "));
     } while (!validateNotEmpty(model, "Model"));
 
-    // Validate status
-    std::string status;
+    string status;
     do
     {
         status = trim(getInput("Enter Status (Active/Maintenance/Inactive): "));
@@ -516,40 +487,38 @@ void AdminDashboard::addBus()
     busManager.addBus(newBus);
 }
 
-// Update Bus
 void AdminDashboard::updateBus()
 {
-    std::cout << "\n--- Update Bus ---" << std::endl;
+    system("cls");
+    cout << "\n--- Update Bus ---" << endl;
 
     clearInputBuffer();
-    std::string id = getInput("Enter Bus ID to update: ");
+    string id = getInput("Enter Bus ID to update: ");
 
     Bus *bus = busManager.findBus(id);
     if (!bus)
     {
-        std::cout << "Bus not found." << std::endl;
+        cout << "Bus not found." << endl;
         return;
     }
 
-    std::cout << "\nCurrent Bus Information:" << std::endl;
+    cout << "\nCurrent Bus Information:" << endl;
     busManager.displayAllBuses();
 
-    std::cout << "Enter New Capacity (or 0 to keep current): ";
+    cout << "Enter New Capacity (or 0 to keep current): ";
     int capacity;
-    std::cin >> capacity;
+    cin >> capacity;
     clearInputBuffer();
 
-    // Validate capacity if provided
     if (capacity < 0)
     {
-        std::cout << "Error: Capacity cannot be negative." << std::endl;
+        cout << "Error: Capacity cannot be negative." << endl;
         return;
     }
 
-    std::string model = trim(getInput("Enter New Model (or press Enter to keep current): "));
-    std::string status = trim(getInput("Enter New Status (or press Enter to keep current): "));
+    string model = trim(getInput("Enter New Model (or press Enter to keep current): "));
+    string status = trim(getInput("Enter New Status (or press Enter to keep current): "));
 
-    // Update only if new values provided
     if (capacity > 0)
         bus->setCapacity(capacity);
     if (!model.empty())
@@ -570,26 +539,25 @@ void AdminDashboard::updateBus()
     busManager.updateBus(id, *bus);
 }
 
-// Remove Bus
 void AdminDashboard::removeBus()
 {
-    std::cout << "\n--- Remove Bus ---" << std::endl;
+    system("cls");
+    cout << "\n--- Remove Bus ---" << endl;
 
     clearInputBuffer();
-    std::string id = getInput("Enter Bus ID to remove: ");
+    string id = getInput("Enter Bus ID to remove: ");
 
-    std::string confirm = getInput("Are you sure you want to remove this bus? (yes/no): ");
+    string confirm = getInput("Are you sure you want to remove this bus? (yes/no): ");
     if (confirm == "yes" || confirm == "y")
     {
         busManager.removeBus(id);
     }
     else
     {
-        std::cout << "Operation cancelled." << std::endl;
+        cout << "Operation cancelled." << endl;
     }
 }
 
-// Manage Drivers
 void AdminDashboard::manageDrivers()
 {
     int choice;
@@ -597,12 +565,13 @@ void AdminDashboard::manageDrivers()
 
     while (!back)
     {
-        std::cout << "\n--- Manage Drivers ---" << std::endl;
-        std::cout << "1. View All Drivers" << std::endl;
-        std::cout << "2. Add Driver" << std::endl;
-        std::cout << "3. Update Driver" << std::endl;
-        std::cout << "4. Remove Driver" << std::endl;
-        std::cout << "5. Back to Main Menu" << std::endl;
+        system("cls");
+        cout << "\n--- Manage Drivers ---" << endl;
+        cout << "1. View All Drivers" << endl;
+        cout << "2. Add Driver" << endl;
+        cout << "3. Update Driver" << endl;
+        cout << "4. Remove Driver" << endl;
+        cout << "5. Back to Main Menu" << endl;
 
         choice = getIntInput("Enter your choice: ");
 
@@ -624,48 +593,43 @@ void AdminDashboard::manageDrivers()
             back = true;
             break;
         default:
-            std::cout << "Invalid choice." << std::endl;
+            cout << "Invalid choice." << endl;
         }
     }
 }
 
-// View Drivers
 void AdminDashboard::viewDrivers()
 {
-    std::cout << "\n";
+    cout << "\n";
     driverManager.displayAllDrivers();
 }
 
-// Add Driver
 void AdminDashboard::addDriver()
 {
-    std::cout << "\n--- Add New Driver ---" << std::endl;
+    system("cls");
+    cout << "\n--- Add New Driver ---" << endl;
 
     clearInputBuffer();
 
-    // Validate ID
-    std::string id;
+    string id;
     do
     {
         id = trim(getInput("Enter Driver ID: "));
     } while (!validateId(id));
 
-    // Validate name
-    std::string name;
+    string name;
     do
     {
         name = trim(getInput("Enter Name: "));
     } while (!validateNotEmpty(name, "Name"));
 
-    // Validate contact
-    std::string contact;
+    string contact;
     do
     {
         contact = trim(getInput("Enter Contact Info: "));
     } while (!validateContact(contact));
 
-    // Validate license
-    std::string license;
+    string license;
     do
     {
         license = trim(getInput("Enter License Details: "));
@@ -675,29 +639,28 @@ void AdminDashboard::addDriver()
     driverManager.addDriver(newDriver);
 }
 
-// Update Driver
 void AdminDashboard::updateDriver()
 {
-    std::cout << "\n--- Update Driver ---" << std::endl;
+    system("cls");
+    cout << "\n--- Update Driver ---" << endl;
 
     clearInputBuffer();
-    std::string id = getInput("Enter Driver ID to update: ");
+    string id = getInput("Enter Driver ID to update: ");
 
     Driver *driver = driverManager.findDriver(id);
     if (!driver)
     {
-        std::cout << "Driver not found." << std::endl;
+        cout << "Driver not found." << endl;
         return;
     }
 
-    std::cout << "\nCurrent Driver Information:" << std::endl;
+    cout << "\nCurrent Driver Information:" << endl;
     driverManager.displayAllDrivers();
 
-    std::string name = trim(getInput("Enter New Name (or press Enter to keep current): "));
-    std::string contact = trim(getInput("Enter New Contact Info (or press Enter to keep current): "));
-    std::string license = trim(getInput("Enter New License Details (or press Enter to keep current): "));
+    string name = trim(getInput("Enter New Name (or press Enter to keep current): "));
+    string contact = trim(getInput("Enter New Contact Info (or press Enter to keep current): "));
+    string license = trim(getInput("Enter New License Details (or press Enter to keep current): "));
 
-    // Update only if new values provided
     if (!name.empty())
     {
         if (validateNotEmpty(name, "Name"))
@@ -723,26 +686,25 @@ void AdminDashboard::updateDriver()
     driverManager.updateDriver(id, *driver);
 }
 
-// Remove Driver
 void AdminDashboard::removeDriver()
 {
-    std::cout << "\n--- Remove Driver ---" << std::endl;
+    system("cls");
+    cout << "\n--- Remove Driver ---" << endl;
 
     clearInputBuffer();
-    std::string id = getInput("Enter Driver ID to remove: ");
+    string id = getInput("Enter Driver ID to remove: ");
 
-    std::string confirm = getInput("Are you sure you want to remove this driver? (yes/no): ");
+    string confirm = getInput("Are you sure you want to remove this driver? (yes/no): ");
     if (confirm == "yes" || confirm == "y")
     {
         driverManager.removeDriver(id);
     }
     else
     {
-        std::cout << "Operation cancelled." << std::endl;
+        cout << "Operation cancelled." << endl;
     }
 }
 
-// Manage Schedules
 void AdminDashboard::manageSchedules()
 {
     int choice;
@@ -750,12 +712,13 @@ void AdminDashboard::manageSchedules()
 
     while (!back)
     {
-        std::cout << "\n--- Manage Schedules ---" << std::endl;
-        std::cout << "1. View All Schedules" << std::endl;
-        std::cout << "2. Add Schedule" << std::endl;
-        std::cout << "3. Update Schedule" << std::endl;
-        std::cout << "4. Remove Schedule" << std::endl;
-        std::cout << "5. Back to Main Menu" << std::endl;
+        system("cls");
+        cout << "\n--- Manage Schedules ---" << endl;
+        cout << "1. View All Schedules" << endl;
+        cout << "2. Add Schedule" << endl;
+        cout << "3. Update Schedule" << endl;
+        cout << "4. Remove Schedule" << endl;
+        cout << "5. Back to Main Menu" << endl;
 
         choice = getIntInput("Enter your choice: ");
 
@@ -777,78 +740,69 @@ void AdminDashboard::manageSchedules()
             back = true;
             break;
         default:
-            std::cout << "Invalid choice." << std::endl;
+            cout << "Invalid choice." << endl;
         }
     }
 }
 
-// View Schedules
 void AdminDashboard::viewSchedules()
 {
-    std::cout << "\n";
+    cout << "\n";
     scheduleManager.displayAllSchedules();
 }
 
-// Add Schedule
 void AdminDashboard::addSchedule()
 {
-    std::cout << "\n--- Add New Schedule ---" << std::endl;
+    system("cls");
+    cout << "\n--- Add New Schedule ---" << endl;
 
     clearInputBuffer();
 
-    // Validate schedule ID
-    std::string id;
+    string id;
     do
     {
         id = trim(getInput("Enter Schedule ID: "));
     } while (!validateId(id));
 
-    // Validate route ID
-    std::string routeId;
+    string routeId;
     do
     {
         routeId = trim(getInput("Enter Route ID: "));
     } while (!validateId(routeId));
 
-    // Validate bus ID
-    std::string busId;
+    string busId;
     do
     {
         busId = trim(getInput("Enter Bus ID: "));
     } while (!validateId(busId));
 
-    // Validate driver ID
-    std::string driverId;
+    string driverId;
     do
     {
         driverId = trim(getInput("Enter Driver ID: "));
     } while (!validateId(driverId));
 
-    // Validate date
-    std::string date;
+    string date;
     do
     {
         date = trim(getInput("Enter Date (YYYY-MM-DD): "));
     } while (!validateDate(date));
 
-    // Validate departure time
-    std::string departureTime;
+    string departureTime;
     do
     {
         departureTime = trim(getInput("Enter Departure Time (HH:MM): "));
     } while (!validateTime(departureTime));
 
-    // Validate arrival time
-    std::string arrivalTime;
+    string arrivalTime;
     do
     {
         arrivalTime = trim(getInput("Enter Arrival Time (HH:MM): "));
     } while (!validateTime(arrivalTime));
 
-    // Check departure before arrival
     if (departureTime >= arrivalTime)
     {
-        std::cout << "Error: Departure time must be before arrival time." << std::endl;
+        cout << "Error: Departure time must be before arrival time." << endl;
         return;
     }
 
@@ -856,32 +810,31 @@ void AdminDashboard::addSchedule()
     scheduleManager.addSchedule(newSchedule);
 }
 
-// Update Schedule
 void AdminDashboard::updateSchedule()
 {
-    std::cout << "\n--- Update Schedule ---" << std::endl;
+    system("cls");
+    cout << "\n--- Update Schedule ---" << endl;
 
     clearInputBuffer();
-    std::string id = getInput("Enter Schedule ID to update: ");
+    string id = getInput("Enter Schedule ID to update: ");
 
     Schedule *schedule = scheduleManager.findSchedule(id);
     if (!schedule)
     {
-        std::cout << "Schedule not found." << std::endl;
+        cout << "Schedule not found." << endl;
         return;
     }
 
-    std::cout << "\nCurrent Schedule Information:" << std::endl;
+    cout << "\nCurrent Schedule Information:" << endl;
     scheduleManager.displayAllSchedules();
 
-    std::string routeId = trim(getInput("Enter New Route ID (or press Enter to keep current): "));
-    std::string busId = trim(getInput("Enter New Bus ID (or press Enter to keep current): "));
-    std::string driverId = trim(getInput("Enter New Driver ID (or press Enter to keep current): "));
-    std::string date = trim(getInput("Enter New Date (or press Enter to keep current): "));
-    std::string departureTime = trim(getInput("Enter New Departure Time (or press Enter to keep current): "));
-    std::string arrivalTime = trim(getInput("Enter New Arrival Time (or press Enter to keep current): "));
+    string routeId = trim(getInput("Enter New Route ID (or press Enter to keep current): "));
+    string busId = trim(getInput("Enter New Bus ID (or press Enter to keep current): "));
+    string driverId = trim(getInput("Enter New Driver ID (or press Enter to keep current): "));
+    string date = trim(getInput("Enter New Date (or press Enter to keep current): "));
+    string departureTime = trim(getInput("Enter New Departure Time (or press Enter to keep current): "));
+    string arrivalTime = trim(getInput("Enter New Arrival Time (or press Enter to keep current): "));
 
-    // Validate if new values provided
     if (!routeId.empty() && !validateId(routeId))
         return;
     if (!busId.empty() && !validateId(busId))
@@ -895,7 +848,6 @@ void AdminDashboard::updateSchedule()
     if (!arrivalTime.empty() && !validateTime(arrivalTime))
         return;
 
-    // Update only if new values provided
     if (!routeId.empty())
         schedule->setRouteId(routeId);
     if (!busId.empty())
@@ -912,21 +864,21 @@ void AdminDashboard::updateSchedule()
     scheduleManager.updateSchedule(id, *schedule);
 }
 
-// Remove Schedule
 void AdminDashboard::removeSchedule()
 {
-    std::cout << "\n--- Remove Schedule ---" << std::endl;
+    system("cls");
+    cout << "\n--- Remove Schedule ---" << endl;
 
     clearInputBuffer();
-    std::string id = getInput("Enter Schedule ID to remove: ");
+    string id = getInput("Enter Schedule ID to remove: ");
 
-    std::string confirm = getInput("Are you sure you want to remove this schedule? (yes/no): ");
+    string confirm = getInput("Are you sure you want to remove this schedule? (yes/no): ");
     if (confirm == "yes" || confirm == "y")
     {
         scheduleManager.removeSchedule(id);
     }
     else
     {
-        std::cout << "Operation cancelled." << std::endl;
+        cout << "Operation cancelled." << endl;
     }
 }

@@ -3,8 +3,8 @@
 #include <iostream>
 #include <limits>
 #include <algorithm>
+#include <cstdlib>
 
-// Helper function to trim whitespace
 static std::string trim(const std::string &str)
 {
     size_t first = str.find_first_not_of(" \t\n\r");
@@ -14,7 +14,6 @@ static std::string trim(const std::string &str)
     return str.substr(first, (last - first + 1));
 }
 
-// Validate non-empty string
 static bool validateNotEmpty(const std::string &str, const std::string &fieldName)
 {
     if (str.empty())
@@ -25,17 +24,14 @@ static bool validateNotEmpty(const std::string &str, const std::string &fieldNam
     return true;
 }
 
-// Constructor
 PassengerMenu::PassengerMenu(RouteManager &rm) : routeManager(rm) {}
 
-// Clear input buffer
 void PassengerMenu::clearInputBuffer()
 {
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-// Get string input
 std::string PassengerMenu::getInput(const std::string &prompt)
 {
     std::string input;
@@ -44,7 +40,6 @@ std::string PassengerMenu::getInput(const std::string &prompt)
     return input;
 }
 
-// Get integer input
 int PassengerMenu::getIntInput(const std::string &prompt)
 {
     int value;
@@ -64,7 +59,6 @@ int PassengerMenu::getIntInput(const std::string &prompt)
     }
 }
 
-// Display main menu
 void PassengerMenu::displayMenu() const
 {
     std::cout << "\n========================================" << std::endl;
@@ -79,16 +73,19 @@ void PassengerMenu::displayMenu() const
     std::cout << "========================================" << std::endl;
 }
 
-// Main menu loop
 void PassengerMenu::show()
 {
     int choice;
     bool running = true;
 
+    system("cls");
     std::cout << "\nWelcome to Passenger Services!" << std::endl;
+    std::cout << "\nPress Enter to continue...";
+    std::cin.get();
 
     while (running)
     {
+        system("cls");
         displayMenu();
         choice = getIntInput("Enter your choice: ");
 
@@ -110,6 +107,7 @@ void PassengerMenu::show()
             viewTravelTime();
             break;
         case 6:
+            system("cls");
             std::cout << "\nReturning to main menu..." << std::endl;
             running = false;
             break;
@@ -119,16 +117,16 @@ void PassengerMenu::show()
     }
 }
 
-// View all routes
 void PassengerMenu::viewAllRoutes()
 {
+    system("cls");
     std::cout << "\n--- All Available Routes ---" << std::endl;
     routeManager.displayAllRoutes();
 }
 
-// Search by origin
 void PassengerMenu::searchByOrigin()
 {
+    system("cls");
     std::cout << "\n--- Search by Origin ---" << std::endl;
 
     clearInputBuffer();
@@ -139,16 +137,14 @@ void PassengerMenu::searchByOrigin()
         return;
     }
 
-    // Get all routes (need access to the routes vector)
-    // For now, we'll display all and note which match
     std::cout << "\nSearching for routes starting from: " << origin << std::endl;
     std::cout << "\nNote: Displaying all routes. Look for routes with matching origin." << std::endl;
     routeManager.displayAllRoutes();
 }
 
-// Search by destination
 void PassengerMenu::searchByDestination()
 {
+    system("cls");
     std::cout << "\n--- Search by Destination ---" << std::endl;
 
     clearInputBuffer();
@@ -164,9 +160,9 @@ void PassengerMenu::searchByDestination()
     routeManager.displayAllRoutes();
 }
 
-// Search by stop
 void PassengerMenu::searchByStop()
 {
+    system("cls");
     std::cout << "\n--- Search by Stop ---" << std::endl;
 
     clearInputBuffer();
@@ -182,9 +178,9 @@ void PassengerMenu::searchByStop()
     routeManager.displayAllRoutes();
 }
 
-// View travel time
 void PassengerMenu::viewTravelTime()
 {
+    system("cls");
     std::cout << "\n--- View Estimated Travel Time ---" << std::endl;
 
     clearInputBuffer();

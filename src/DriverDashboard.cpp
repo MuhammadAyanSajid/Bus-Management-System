@@ -1,133 +1,124 @@
 #include "../include/DriverDashboard.h"
 #include "../include/DisplayManager.h"
-#include <iostream>
-#include <limits>
-#include <regex>
-#include <algorithm>
-#include <fstream>
+#include <cstdlib>
 
-// Helper function to trim whitespace
-static std::string trim(const std::string &str)
+static string trim(const string &str)
 {
     size_t first = str.find_first_not_of(" \t\n\r");
-    if (first == std::string::npos)
+    if (first == string::npos)
         return "";
     size_t last = str.find_last_not_of(" \t\n\r");
     return str.substr(first, (last - first + 1));
 }
 
-// Validate date format (YYYY-MM-DD)
-static bool validateDate(const std::string &date)
+static bool validateDate(const string &date)
 {
-    std::regex dateRegex(R"(^\d{4}-\d{2}-\d{2}$)");
-    if (!std::regex_match(date, dateRegex))
+    regex dateRegex(R"(^\d{4}-\d{2}-\d{2}$)");
+    if (!regex_match(date, dateRegex))
     {
-        std::cout << "Error: Date must be in YYYY-MM-DD format (e.g., 2025-11-16)." << std::endl;
+        cout << "Error: Date must be in YYYY-MM-DD format (e.g., 2025-11-16)." << endl;
         return false;
     }
-    int year = std::stoi(date.substr(0, 4));
-    int month = std::stoi(date.substr(5, 2));
-    int day = std::stoi(date.substr(8, 2));
+    int year = stoi(date.substr(0, 4));
+    int month = stoi(date.substr(5, 2));
+    int day = stoi(date.substr(8, 2));
     if (month < 1 || month > 12)
     {
-        std::cout << "Error: Month must be between 01 and 12." << std::endl;
+        cout << "Error: Month must be between 01 and 12." << endl;
         return false;
     }
     if (day < 1 || day > 31)
     {
-        std::cout << "Error: Day must be between 01 and 31." << std::endl;
+        cout << "Error: Day must be between 01 and 31." << endl;
         return false;
     }
     if (year < 2000 || year > 2100)
     {
-        std::cout << "Error: Year must be between 2000 and 2100." << std::endl;
+        cout << "Error: Year must be between 2000 and 2100." << endl;
         return false;
     }
     return true;
 }
 
-// Validate contact info
-static bool validateContact(const std::string &contact)
+static bool validateContact(const string &contact)
 {
-    std::string trimmedContact = trim(contact);
+    string trimmedContact = trim(contact);
     if (trimmedContact.empty())
     {
-        std::cout << "Error: Contact information cannot be empty." << std::endl;
+        cout << "Error: Contact information cannot be empty." << endl;
         return false;
     }
     if (trimmedContact.length() < 7)
     {
-        std::cout << "Error: Contact information seems too short. Please provide valid phone or email." << std::endl;
+        cout << "Error: Contact information seems too short. Please provide valid phone or email." << endl;
         return false;
     }
     return true;
 }
 
-// Constructor
-DriverDashboard::DriverDashboard(ScheduleManager &sm, DriverManager &dm, BusManager &bm, User *driverUser, const std::string &dId)
+DriverDashboard::DriverDashboard(ScheduleManager &sm, DriverManager &dm, BusManager &bm, User *driverUser, const string &dId)
     : scheduleManager(sm), driverManager(dm), busManager(bm), driver(driverUser), driverId(dId) {}
 
-// Clear input buffer
 void DriverDashboard::clearInputBuffer()
 {
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-// Get string input
-std::string DriverDashboard::getInput(const std::string &prompt)
+string DriverDashboard::getInput(const string &prompt)
 {
-    std::string input;
-    std::cout << prompt;
-    std::getline(std::cin, input);
+    string input;
+    cout << prompt;
+    getline(cin, input);
     return input;
 }
 
-// Get integer input
-int DriverDashboard::getIntInput(const std::string &prompt)
+int DriverDashboard::getIntInput(const string &prompt)
 {
     int value;
     while (true)
     {
-        std::cout << prompt;
-        if (std::cin >> value)
+        cout << prompt;
+        if (cin >> value)
         {
             clearInputBuffer();
             return value;
         }
         else
         {
-            std::cout << "Invalid input. Please enter a number." << std::endl;
+            cout << "Invalid input. Please enter a number." << endl;
             clearInputBuffer();
         }
     }
 }
 
-// Display main menu
 void DriverDashboard::displayMenu() const
 {
-    std::cout << "\n========================================" << std::endl;
-    std::cout << "       DRIVER DASHBOARD" << std::endl;
-    std::cout << "========================================" << std::endl;
-    std::cout << "1. View Assigned Schedule" << std::endl;
-    std::cout << "2. View Personal Profile" << std::endl;
-    std::cout << "3. Update Contact Information" << std::endl;
-    std::cout << "4. Request Day Off" << std::endl;
-    std::cout << "5. View Bus Details" << std::endl;
-    std::cout << "6. Logout" << std::endl;
-    std::cout << "========================================" << std::endl;
+    cout << "\n========================================" << endl;
+    cout << "       DRIVER DASHBOARD" << endl;
+    cout << "========================================" << endl;
+    cout << "1. View Assigned Schedule" << endl;
+    cout << "2. View Personal Profile" << endl;
+    cout << "3. Update Contact Information" << endl;
+    cout << "4. Request Day Off" << endl;
+    cout << "5. View Bus Details" << endl;
+    cout << "6. Logout" << endl;
+    cout << "========================================" << endl;
 }
 
-// Main dashboard loop
 void DriverDashboard::show()
 {
     int choice;
     bool running = true;
 
-    std::cout << "\nWelcome to Driver Dashboard, " << driver->getUsername() << "!" << std::endl;
+    system("cls");
+    cout << "\nWelcome to Driver Dashboard, " << driver->getUsername() << "!" << endl;
+    cout << "\nPress Enter to continue...";
+    cin.get();
 
     while (running)
     {
+        system("cls");
         displayMenu();
         choice = getIntInput("Enter your choice: ");
 
@@ -149,41 +140,40 @@ void DriverDashboard::show()
             viewBusDetails();
             break;
         case 6:
-            std::cout << "\nLogging out..." << std::endl;
+            system("cls");
+            cout << "\nLogging out..." << endl;
             running = false;
             break;
         default:
-            std::cout << "Invalid choice. Please try again." << std::endl;
+            cout << "Invalid choice. Please try again." << endl;
         }
     }
 }
 
-// View assigned schedule
 void DriverDashboard::viewAssignedSchedule()
 {
-    std::cout << "\n--- My Assigned Schedules ---" << std::endl;
+    system("cls");
+    cout << "\n--- My Assigned Schedules ---" << endl;
 
     clearInputBuffer();
-    std::string date = trim(getInput("Enter date to view schedules (YYYY-MM-DD) or press Enter for all: "));
+    string date = trim(getInput("Enter date to view schedules (YYYY-MM-DD) or press Enter for all: "));
 
-    // Validate date if provided
     if (!date.empty() && !validateDate(date))
     {
         return;
     }
 
-    std::vector<Schedule> driverSchedules = scheduleManager.getSchedulesByDriver(driverId);
+    vector<Schedule> driverSchedules = scheduleManager.getSchedulesByDriver(driverId);
 
     if (driverSchedules.empty())
     {
-        std::cout << "No schedules assigned to you." << std::endl;
+        cout << "No schedules assigned to you." << endl;
         return;
     }
 
-    // Filter by date if provided
     if (!date.empty())
     {
-        std::vector<Schedule> filteredSchedules;
+        vector<Schedule> filteredSchedules;
         for (const auto &schedule : driverSchedules)
         {
             if (schedule.getDate() == date)
@@ -196,53 +186,53 @@ void DriverDashboard::viewAssignedSchedule()
 
     if (driverSchedules.empty())
     {
-        std::cout << "No schedules found for the specified date." << std::endl;
+        cout << "No schedules found for the specified date." << endl;
         return;
     }
 
-    std::cout << "\n";
+    cout << "\n";
     DisplayManager::displaySchedules(driverSchedules);
 }
 
-// View personal profile
 void DriverDashboard::viewPersonalProfile()
 {
-    std::cout << "\n--- My Profile ---" << std::endl;
+    system("cls");
+    cout << "\n--- My Profile ---" << endl;
 
     Driver *driverProfile = driverManager.findDriver(driverId);
     if (driverProfile)
     {
-        std::cout << "\n";
+        cout << "\n";
         DisplayManager::displayDriver(*driverProfile);
     }
     else
     {
-        std::cout << "Driver profile not found." << std::endl;
+        cout << "Driver profile not found." << endl;
     }
 }
 
-// Update contact information
 void DriverDashboard::updateContactInfo()
 {
-    std::cout << "\n--- Update Contact Information ---" << std::endl;
+    system("cls");
+    cout << "\n--- Update Contact Information ---" << endl;
 
     Driver *driverProfile = driverManager.findDriver(driverId);
     if (!driverProfile)
     {
-        std::cout << "Driver profile not found." << std::endl;
+        cout << "Driver profile not found." << endl;
         return;
     }
 
-    std::cout << "Current Contact Info: " << driverProfile->getContactInfo() << std::endl;
+    cout << "Current Contact Info: " << driverProfile->getContactInfo() << endl;
 
     clearInputBuffer();
-    std::string newContact;
+    string newContact;
     do
     {
         newContact = trim(getInput("Enter new contact information (or press Enter to cancel): "));
         if (newContact.empty())
         {
-            std::cout << "Update cancelled." << std::endl;
+            cout << "Update cancelled." << endl;
             return;
         }
     } while (!validateContact(newContact));
@@ -250,57 +240,55 @@ void DriverDashboard::updateContactInfo()
     driverProfile->setContactInfo(newContact);
     if (driverManager.updateDriver(driverId, *driverProfile))
     {
-        std::cout << "Contact information updated successfully." << std::endl;
+        cout << "Contact information updated successfully." << endl;
     }
 }
 
-// Request day off
 void DriverDashboard::requestDayOff()
 {
-    std::cout << "\n--- Request Day Off ---" << std::endl;
+    system("cls");
+    cout << "\n--- Request Day Off ---" << endl;
 
     clearInputBuffer();
 
-    // Validate date
-    std::string date;
+    string date;
     do
     {
         date = trim(getInput("Enter date for day off (YYYY-MM-DD): "));
     } while (!validateDate(date));
 
-    std::string reason = trim(getInput("Enter reason (optional): "));
+    string reason = trim(getInput("Enter reason (optional): "));
 
-    // Log the request to a file
-    std::ofstream logFile("data/dayoff_requests.txt", std::ios::app);
+    ofstream logFile("data/dayoff_requests.txt", ios::app);
     if (logFile.is_open())
     {
-        logFile << driverId << "," << date << "," << reason << std::endl;
+        logFile << driverId << "," << date << "," << reason << endl;
         logFile.close();
-        std::cout << "Day off request submitted successfully." << std::endl;
-        std::cout << "An administrator will review your request." << std::endl;
+        cout << "Day off request submitted successfully." << endl;
+        cout << "An administrator will review your request." << endl;
     }
     else
     {
-        std::cout << "Error: Could not submit day off request." << std::endl;
+        cout << "Error: Could not submit day off request." << endl;
     }
 }
 
-// View bus details
 void DriverDashboard::viewBusDetails()
 {
-    std::cout << "\n--- View Bus Details ---" << std::endl;
+    system("cls");
+    cout << "\n--- Bus Details ---" << endl;
 
     clearInputBuffer();
-    std::string busId = getInput("Enter Bus ID to view details: ");
+    string busId = getInput("Enter Bus ID to view details: ");
 
     Bus *bus = busManager.findBus(busId);
     if (bus)
     {
-        std::cout << "\n";
+        cout << "\n";
         DisplayManager::displayBus(*bus);
     }
     else
     {
-        std::cout << "Bus not found." << std::endl;
+        cout << "Bus not found." << endl;
     }
 }
