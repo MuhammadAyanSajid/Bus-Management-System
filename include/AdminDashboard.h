@@ -16,13 +16,11 @@ private:
     ScheduleManager &scheduleManager;
     User *admin;
 
-    // Helper functions for menu operations
     void manageRoutes();
     void manageSchedules();
     void manageBuses();
     void manageDrivers();
 
-    // CRUD helper functions
     void addRoute();
     void updateRoute();
     void removeRoute();
@@ -43,20 +41,16 @@ private:
     void removeSchedule();
     void viewSchedules();
 
-    // Input helpers
     void clearInputBuffer();
     std::string getInput(const std::string &prompt);
     int getIntInput(const std::string &prompt);
 
 public:
-    // Constructor
     AdminDashboard(RouteManager &rm, BusManager &bm, DriverManager &dm, ScheduleManager &sm, User *adminUser);
 
-    // Main dashboard
     void show();
 
-    // Display menu
     void displayMenu() const;
 };
 
-#endif // ADMINDASHBOARD_H
+#endif

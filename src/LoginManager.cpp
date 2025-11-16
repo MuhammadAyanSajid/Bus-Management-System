@@ -2,11 +2,9 @@
 #include <iostream>
 #include <iomanip>
 
-// Constructor
 LoginManager::LoginManager(std::vector<User> &userList)
     : users(userList), currentUser(nullptr) {}
 
-// Display login screen
 void LoginManager::displayLoginScreen(const std::string &roleType) const
 {
     std::cout << "\n";
@@ -15,7 +13,6 @@ void LoginManager::displayLoginScreen(const std::string &roleType) const
     std::cout << "========================================" << std::endl;
 }
 
-// Authenticate user
 bool LoginManager::authenticate(const std::string &username, const std::string &password, UserRole expectedRole)
 {
     for (auto &user : users)
@@ -47,13 +44,11 @@ bool LoginManager::authenticate(const std::string &username, const std::string &
     return false;
 }
 
-// Get current user
 User *LoginManager::getCurrentUser() const
 {
     return currentUser;
 }
 
-// Logout
 void LoginManager::logout()
 {
     if (currentUser)
@@ -64,13 +59,11 @@ void LoginManager::logout()
     }
 }
 
-// Check if logged in
 bool LoginManager::isLoggedIn() const
 {
     return currentUser != nullptr;
 }
 
-// Find user by username
 User *LoginManager::findUser(const std::string &username)
 {
     for (auto &user : users)

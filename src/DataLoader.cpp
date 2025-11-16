@@ -3,7 +3,6 @@
 #include <sstream>
 #include <iostream>
 
-// Helper function to split CSV line
 std::vector<std::string> DataLoader::splitCSV(const std::string &line, char delimiter)
 {
     std::vector<std::string> tokens;
@@ -18,19 +17,16 @@ std::vector<std::string> DataLoader::splitCSV(const std::string &line, char deli
     return tokens;
 }
 
-// Helper function to parse key stops (pipe-separated)
 std::vector<std::string> DataLoader::parseKeyStops(const std::string &stopsStr)
 {
     return splitCSV(stopsStr, '|');
 }
 
-// Private helper for error logging
 void DataLoader::logError(const std::string &filename, int lineNumber, const std::string &error)
 {
     std::cerr << "Error in " << filename << " at line " << lineNumber << ": " << error << std::endl;
 }
 
-// Load buses from file
 std::vector<Bus> DataLoader::loadBuses(const std::string &filename)
 {
     std::vector<Bus> buses;
@@ -82,7 +78,6 @@ std::vector<Bus> DataLoader::loadBuses(const std::string &filename)
     return buses;
 }
 
-// Load drivers from file
 std::vector<Driver> DataLoader::loadDrivers(const std::string &filename)
 {
     std::vector<Driver> drivers;
@@ -127,7 +122,6 @@ std::vector<Driver> DataLoader::loadDrivers(const std::string &filename)
     return drivers;
 }
 
-// Load routes from file
 std::vector<Route> DataLoader::loadRoutes(const std::string &filename)
 {
     std::vector<Route> routes;
@@ -180,7 +174,6 @@ std::vector<Route> DataLoader::loadRoutes(const std::string &filename)
     return routes;
 }
 
-// Load schedules from file
 std::vector<Schedule> DataLoader::loadSchedules(const std::string &filename)
 {
     std::vector<Schedule> schedules;
@@ -228,7 +221,6 @@ std::vector<Schedule> DataLoader::loadSchedules(const std::string &filename)
     return schedules;
 }
 
-// Load user credentials from file
 std::vector<User> DataLoader::loadCredentials(const std::string &filename)
 {
     std::vector<User> users;

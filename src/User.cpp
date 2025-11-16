@@ -1,10 +1,7 @@
 #include "../include/User.h"
 #include <iomanip>
 
-// Default constructor
 User::User() : username(""), password(""), role(UserRole::PASSENGER) {}
-
-// Parameterized constructor
 User::User(const std::string &username, const std::string &password, UserRole role)
     : username(username), password(password), role(role) {}
 
@@ -39,7 +36,6 @@ std::string User::getRoleString() const
     }
 }
 
-// Setters
 void User::setUsername(const std::string &username)
 {
     this->username = username;
@@ -55,23 +51,20 @@ void User::setRole(UserRole role)
     this->role = role;
 }
 
-// Authentication
 bool User::authenticate(const std::string &inputUsername, const std::string &inputPassword) const
 {
     return (username == inputUsername && password == inputPassword);
 }
 
-// Display function
 void User::display() const
 {
     std::cout << std::left
               << std::setw(15) << username
-              << std::setw(15) << "********" // Don't show password
+              << std::setw(15) << "********"
               << std::setw(15) << getRoleString()
               << std::endl;
 }
 
-// Static helper to convert string to UserRole
 UserRole User::stringToRole(const std::string &roleStr)
 {
     if (roleStr == "Admin" || roleStr == "ADMIN" || roleStr == "admin")

@@ -2,7 +2,6 @@
 #include <fstream>
 #include <iostream>
 
-// Save buses to file
 bool DataSaver::saveBuses(const std::string &filename, const std::vector<Bus> &buses)
 {
     std::ofstream file(filename);
@@ -26,7 +25,6 @@ bool DataSaver::saveBuses(const std::string &filename, const std::vector<Bus> &b
     return true;
 }
 
-// Save drivers to file
 bool DataSaver::saveDrivers(const std::string &filename, const std::vector<Driver> &drivers)
 {
     std::ofstream file(filename);
@@ -50,7 +48,6 @@ bool DataSaver::saveDrivers(const std::string &filename, const std::vector<Drive
     return true;
 }
 
-// Save routes to file
 bool DataSaver::saveRoutes(const std::string &filename, const std::vector<Route> &routes)
 {
     std::ofstream file(filename);
@@ -75,7 +72,6 @@ bool DataSaver::saveRoutes(const std::string &filename, const std::vector<Route>
     return true;
 }
 
-// Save schedules to file
 bool DataSaver::saveSchedules(const std::string &filename, const std::vector<Schedule> &schedules)
 {
     std::ofstream file(filename);
@@ -102,7 +98,6 @@ bool DataSaver::saveSchedules(const std::string &filename, const std::vector<Sch
     return true;
 }
 
-// Save user credentials to file
 bool DataSaver::saveCredentials(const std::string &filename, const std::vector<User> &users)
 {
     std::ofstream file(filename);

@@ -2,17 +2,13 @@
 #include <iomanip>
 #include <sstream>
 
-// Default constructor
 Route::Route() : id(""), origin(""), destination(""), estimatedTravelTime(0) {}
-
-// Parameterized constructor
 Route::Route(const std::string &id, const std::string &origin,
              const std::string &destination, const std::vector<std::string> &keyStops,
              int estimatedTravelTime)
     : id(id), origin(origin), destination(destination),
       keyStops(keyStops), estimatedTravelTime(estimatedTravelTime) {}
 
-// Getters
 std::string Route::getId() const
 {
     return id;
@@ -38,7 +34,6 @@ int Route::getEstimatedTravelTime() const
     return estimatedTravelTime;
 }
 
-// Setters
 void Route::setId(const std::string &id)
 {
     this->id = id;
@@ -64,13 +59,11 @@ void Route::setEstimatedTravelTime(int estimatedTravelTime)
     this->estimatedTravelTime = estimatedTravelTime;
 }
 
-// Helper function to add a stop
 void Route::addStop(const std::string &stop)
 {
     keyStops.push_back(stop);
 }
 
-// Display function
 void Route::display() const
 {
     std::cout << std::left
@@ -82,7 +75,6 @@ void Route::display() const
               << std::endl;
 }
 
-// Get stops as a comma-separated string for display/export
 std::string Route::getStopsAsString() const
 {
     std::stringstream ss;

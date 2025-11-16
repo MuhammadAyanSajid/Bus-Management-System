@@ -2,13 +2,11 @@
 #include <iostream>
 #include <iomanip>
 
-// Print separator line
 void DisplayManager::printSeparator(int width)
 {
     std::cout << std::string(width, '=') << std::endl;
 }
 
-// Print header with title
 void DisplayManager::printHeader(const std::string &title)
 {
     printSeparator();
@@ -16,7 +14,6 @@ void DisplayManager::printHeader(const std::string &title)
     printSeparator();
 }
 
-// Display all buses
 void DisplayManager::displayBuses(const std::vector<Bus> &buses)
 {
     printHeader("BUS INFORMATION");
@@ -46,7 +43,6 @@ void DisplayManager::displayBuses(const std::vector<Bus> &buses)
     printSeparator();
 }
 
-// Display all drivers
 void DisplayManager::displayDrivers(const std::vector<Driver> &drivers)
 {
     printHeader("DRIVER INFORMATION");
@@ -76,7 +72,6 @@ void DisplayManager::displayDrivers(const std::vector<Driver> &drivers)
     printSeparator();
 }
 
-// Display all routes
 void DisplayManager::displayRoutes(const std::vector<Route> &routes)
 {
     printHeader("ROUTE INFORMATION");
@@ -107,7 +102,6 @@ void DisplayManager::displayRoutes(const std::vector<Route> &routes)
     printSeparator();
 }
 
-// Display all schedules
 void DisplayManager::displaySchedules(const std::vector<Schedule> &schedules)
 {
     printHeader("SCHEDULE INFORMATION");
@@ -140,7 +134,6 @@ void DisplayManager::displaySchedules(const std::vector<Schedule> &schedules)
     printSeparator();
 }
 
-// Display all users
 void DisplayManager::displayUsers(const std::vector<User> &users)
 {
     printHeader("USER CREDENTIALS");
@@ -169,7 +162,6 @@ void DisplayManager::displayUsers(const std::vector<User> &users)
     printSeparator();
 }
 
-// Display single bus
 void DisplayManager::displayBus(const Bus &bus)
 {
     std::cout << std::left
@@ -182,7 +174,6 @@ void DisplayManager::displayBus(const Bus &bus)
     bus.display();
 }
 
-// Display single driver
 void DisplayManager::displayDriver(const Driver &driver)
 {
     std::cout << std::left
@@ -195,7 +186,6 @@ void DisplayManager::displayDriver(const Driver &driver)
     driver.display();
 }
 
-// Display single route
 void DisplayManager::displayRoute(const Route &route)
 {
     std::cout << std::left
@@ -209,7 +199,6 @@ void DisplayManager::displayRoute(const Route &route)
     route.display();
 }
 
-// Display single schedule
 void DisplayManager::displaySchedule(const Schedule &schedule)
 {
     std::cout << std::left

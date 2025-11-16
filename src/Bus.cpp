@@ -1,10 +1,7 @@
 #include "../include/Bus.h"
 #include <iomanip>
 
-// Default constructor
 Bus::Bus() : id(""), capacity(0), model(""), status("Inactive") {}
-
-// Parameterized constructor
 Bus::Bus(const std::string &id, int capacity, const std::string &model, const std::string &status)
     : id(id), capacity(capacity), model(model), status(status) {}
 
@@ -29,7 +26,6 @@ std::string Bus::getStatus() const
     return status;
 }
 
-// Setters
 void Bus::setId(const std::string &id)
 {
     this->id = id;
@@ -50,7 +46,6 @@ void Bus::setStatus(const std::string &status)
     this->status = status;
 }
 
-// Display function
 void Bus::display() const
 {
     std::cout << std::left

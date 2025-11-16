@@ -1,12 +1,10 @@
 #include "../include/Schedule.h"
 #include <iomanip>
 
-// Default constructor
 Schedule::Schedule()
     : id(""), routeId(""), busId(""), driverId(""),
       date(""), departureTime(""), arrivalTime("") {}
 
-// Parameterized constructor
 Schedule::Schedule(const std::string &id, const std::string &routeId,
                    const std::string &busId, const std::string &driverId,
                    const std::string &date, const std::string &departureTime,
@@ -14,7 +12,6 @@ Schedule::Schedule(const std::string &id, const std::string &routeId,
     : id(id), routeId(routeId), busId(busId), driverId(driverId),
       date(date), departureTime(departureTime), arrivalTime(arrivalTime) {}
 
-// Getters
 std::string Schedule::getId() const
 {
     return id;
@@ -50,7 +47,6 @@ std::string Schedule::getArrivalTime() const
     return arrivalTime;
 }
 
-// Setters
 void Schedule::setId(const std::string &id)
 {
     this->id = id;
@@ -86,7 +82,6 @@ void Schedule::setArrivalTime(const std::string &arrivalTime)
     this->arrivalTime = arrivalTime;
 }
 
-// Display function
 void Schedule::display() const
 {
     std::cout << std::left
@@ -100,17 +95,13 @@ void Schedule::display() const
               << std::endl;
 }
 
-// Helper function to check for time overlap
 bool Schedule::hasTimeOverlap(const Schedule &other) const
 {
-    // Check if dates are the same
     if (this->date != other.date)
     {
         return false;
     }
 
-    // Simple string comparison for time overlap (works for HH:MM format)
-    // A more robust solution would parse the times, but this works for sorted times
     return !((this->arrivalTime <= other.departureTime) ||
              (this->departureTime >= other.arrivalTime));
 }

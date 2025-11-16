@@ -4,7 +4,6 @@
 #include <iostream>
 #include <algorithm>
 
-// Constructor
 ScheduleManager::ScheduleManager(std::vector<Schedule> &scheduleList,
                                  std::vector<Route> &routeList,
                                  std::vector<Bus> &busList,
@@ -12,10 +11,8 @@ ScheduleManager::ScheduleManager(std::vector<Schedule> &scheduleList,
                                  const std::string &filename)
     : schedules(scheduleList), routes(routeList), buses(busList), drivers(driverList), dataFile(filename) {}
 
-// Check if valid references exist
 bool ScheduleManager::hasValidReferences(const Schedule &schedule) const
 {
-    // Check if route exists
     bool routeExists = std::any_of(routes.begin(), routes.end(),
                                    [&schedule](const Route &r)
                                    { return r.getId() == schedule.getRouteId(); });
@@ -26,7 +23,6 @@ bool ScheduleManager::hasValidReferences(const Schedule &schedule) const
         return false;
     }
 
-    // Check if bus exists
     bool busExists = std::any_of(buses.begin(), buses.end(),
                                  [&schedule](const Bus &b)
                                  { return b.getId() == schedule.getBusId(); });
@@ -37,7 +33,6 @@ bool ScheduleManager::hasValidReferences(const Schedule &schedule) const
         return false;
     }
 
-    // Check if driver exists
     bool driverExists = std::any_of(drivers.begin(), drivers.end(),
                                     [&schedule](const Driver &d)
                                     { return d.getId() == schedule.getDriverId(); });
@@ -51,23 +46,19 @@ bool ScheduleManager::hasValidReferences(const Schedule &schedule) const
     return true;
 }
 
-// Check for bus overlap
 bool ScheduleManager::hasBusOverlap(const Schedule &newSchedule, const std::string &excludeScheduleId) const
 {
     for (const auto &existingSchedule : schedules)
     {
-        // Skip the schedule being updated
         if (existingSchedule.getId() == excludeScheduleId)
         {
             continue;
         }
 
-        // Check if same bus and same date
         if (existingSchedule.getBusId() == newSchedule.getBusId() &&
             existingSchedule.getDate() == newSchedule.getDate())
         {
 
-            // Check for time overlap
             if (existingSchedule.hasTimeOverlap(newSchedule))
             {
                 std::cout << "Error: Bus " << newSchedule.getBusId()
@@ -81,23 +72,19 @@ bool ScheduleManager::hasBusOverlap(const Schedule &newSchedule, const std::stri
     return false;
 }
 
-// Check for driver overlap
 bool ScheduleManager::hasDriverOverlap(const Schedule &newSchedule, const std::string &excludeScheduleId) const
 {
     for (const auto &existingSchedule : schedules)
     {
-        // Skip the schedule being updated
         if (existingSchedule.getId() == excludeScheduleId)
         {
             continue;
         }
 
-        // Check if same driver and same date
         if (existingSchedule.getDriverId() == newSchedule.getDriverId() &&
             existingSchedule.getDate() == newSchedule.getDate())
         {
 
-            // Check for time overlap
             if (existingSchedule.hasTimeOverlap(newSchedule))
             {
                 std::cout << "Error: Driver " << newSchedule.getDriverId()
@@ -111,17 +98,14 @@ bool ScheduleManager::hasDriverOverlap(const Schedule &newSchedule, const std::s
     return false;
 }
 
-// Validate schedule
 bool ScheduleManager::validateSchedule(const Schedule &schedule) const
 {
-    // Check if ID is not empty
     if (schedule.getId().empty())
     {
         std::cout << "Error: Schedule ID cannot be empty." << std::endl;
         return false;
     }
 
-    // Check if all IDs are provided
     if (schedule.getRouteId().empty() || schedule.getBusId().empty() ||
         schedule.getDriverId().empty())
     {
@@ -129,21 +113,18 @@ bool ScheduleManager::validateSchedule(const Schedule &schedule) const
         return false;
     }
 
-    // Check if date is provided
     if (schedule.getDate().empty())
     {
         std::cout << "Error: Date must be provided." << std::endl;
         return false;
     }
 
-    // Check if times are provided
     if (schedule.getDepartureTime().empty() || schedule.getArrivalTime().empty())
     {
         std::cout << "Error: Departure and arrival times must be provided." << std::endl;
         return false;
     }
 
-    // Check if departure is before arrival
     if (schedule.getDepartureTime() >= schedule.getArrivalTime())
     {
         std::cout << "Error: Departure time must be before arrival time." << std::endl;
@@ -153,7 +134,6 @@ bool ScheduleManager::validateSchedule(const Schedule &schedule) const
     return true;
 }
 
-// Check if schedule exists
 bool ScheduleManager::scheduleExists(const std::string &scheduleId) const
 {
     return std::any_of(schedules.begin(), schedules.end(),
@@ -161,7 +141,6 @@ bool ScheduleManager::scheduleExists(const std::string &scheduleId) const
                        { return s.getId() == scheduleId; });
 }
 
-// Find schedule by ID
 Schedule *ScheduleManager::findSchedule(const std::string &scheduleId)
 {
     auto it = std::find_if(schedules.begin(), schedules.end(),
@@ -175,7 +154,6 @@ Schedule *ScheduleManager::findSchedule(const std::string &scheduleId)
     return nullptr;
 }
 
-// Get schedules by driver
 std::vector<Schedule> ScheduleManager::getSchedulesByDriver(const std::string &driverId) const
 {
     std::vector<Schedule> result;
@@ -189,7 +167,6 @@ std::vector<Schedule> ScheduleManager::getSchedulesByDriver(const std::string &d
     return result;
 }
 
-// Get schedules by date
 std::vector<Schedule> ScheduleManager::getSchedulesByDate(const std::string &date) const
 {
     std::vector<Schedule> result;
@@ -203,7 +180,6 @@ std::vector<Schedule> ScheduleManager::getSchedulesByDate(const std::string &dat
     return result;
 }
 
-// Get schedules by bus
 std::vector<Schedule> ScheduleManager::getSchedulesByBus(const std::string &busId) const
 {
     std::vector<Schedule> result;
@@ -217,52 +193,42 @@ std::vector<Schedule> ScheduleManager::getSchedulesByBus(const std::string &busI
     return result;
 }
 
-// Add new schedule
 bool ScheduleManager::addSchedule(const Schedule &newSchedule)
 {
-    // Validate schedule
     if (!validateSchedule(newSchedule))
     {
         return false;
     }
 
-    // Check if schedule ID already exists
     if (scheduleExists(newSchedule.getId()))
     {
         std::cout << "Error: Schedule with ID " << newSchedule.getId() << " already exists." << std::endl;
         return false;
     }
 
-    // Check valid references
     if (!hasValidReferences(newSchedule))
     {
         return false;
     }
 
-    // Check for bus overlap
     if (hasBusOverlap(newSchedule))
     {
         return false;
     }
 
-    // Check for driver overlap
     if (hasDriverOverlap(newSchedule))
     {
         return false;
     }
 
-    // Add schedule
     schedules.push_back(newSchedule);
     std::cout << "Schedule " << newSchedule.getId() << " added successfully." << std::endl;
 
-    // Save to file
     return saveToFile();
 }
 
-// Update existing schedule
 bool ScheduleManager::updateSchedule(const std::string &scheduleId, const Schedule &updatedSchedule)
 {
-    // Find schedule
     Schedule *schedule = findSchedule(scheduleId);
     if (!schedule)
     {
@@ -270,42 +236,34 @@ bool ScheduleManager::updateSchedule(const std::string &scheduleId, const Schedu
         return false;
     }
 
-    // Validate updated schedule
     if (!validateSchedule(updatedSchedule))
     {
         return false;
     }
 
-    // Check valid references
     if (!hasValidReferences(updatedSchedule))
     {
         return false;
     }
 
-    // Check for bus overlap (excluding current schedule)
     if (hasBusOverlap(updatedSchedule, scheduleId))
     {
         return false;
     }
 
-    // Check for driver overlap (excluding current schedule)
     if (hasDriverOverlap(updatedSchedule, scheduleId))
     {
         return false;
     }
 
-    // Update schedule
     *schedule = updatedSchedule;
     std::cout << "Schedule " << scheduleId << " updated successfully." << std::endl;
 
-    // Save to file
     return saveToFile();
 }
 
-// Remove schedule
 bool ScheduleManager::removeSchedule(const std::string &scheduleId)
 {
-    // Find schedule
     auto it = std::find_if(schedules.begin(), schedules.end(),
                            [&scheduleId](const Schedule &s)
                            { return s.getId() == scheduleId; });
@@ -316,27 +274,22 @@ bool ScheduleManager::removeSchedule(const std::string &scheduleId)
         return false;
     }
 
-    // Remove schedule
     schedules.erase(it);
     std::cout << "Schedule " << scheduleId << " removed successfully." << std::endl;
 
-    // Save to file
     return saveToFile();
 }
 
-// Save to file
 bool ScheduleManager::saveToFile()
 {
     return DataSaver::saveSchedules(dataFile, schedules);
 }
 
-// Display all schedules
 void ScheduleManager::displayAllSchedules() const
 {
     DisplayManager::displaySchedules(schedules);
 }
 
-// Display single schedule
 void ScheduleManager::displaySchedule(const Schedule &schedule) const
 {
     DisplayManager::displaySchedule(schedule);

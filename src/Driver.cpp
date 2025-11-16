@@ -1,15 +1,11 @@
 #include "../include/Driver.h"
 #include <iomanip>
 
-// Default constructor
 Driver::Driver() : id(""), name(""), contactInfo(""), licenseDetails("") {}
-
-// Parameterized constructor
 Driver::Driver(const std::string &id, const std::string &name,
                const std::string &contactInfo, const std::string &licenseDetails)
     : id(id), name(name), contactInfo(contactInfo), licenseDetails(licenseDetails) {}
 
-// Getters
 std::string Driver::getId() const
 {
     return id;
@@ -30,7 +26,6 @@ std::string Driver::getLicenseDetails() const
     return licenseDetails;
 }
 
-// Setters
 void Driver::setId(const std::string &id)
 {
     this->id = id;
@@ -51,7 +46,6 @@ void Driver::setLicenseDetails(const std::string &licenseDetails)
     this->licenseDetails = licenseDetails;
 }
 
-// Display function
 void Driver::display() const
 {
     std::cout << std::left
