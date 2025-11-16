@@ -1,6 +1,13 @@
 #include "../include/DriverDashboard.h"
 #include "../include/DisplayManager.h"
 #include <cstdlib>
+#include <iostream>
+#include <limits>
+#include <regex>
+#include <algorithm>
+#include <fstream>
+
+using namespace std;
 
 static string trim(const string &str)
 {

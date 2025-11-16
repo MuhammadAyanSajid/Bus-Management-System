@@ -8,6 +8,12 @@
 #include "../include/AdminDashboard.h"
 #include "../include/DriverDashboard.h"
 #include "../include/PassengerMenu.h"
+#include <cstdlib>
+#include <iostream>
+#include <limits>
+#include <string>
+
+using namespace std;
 
 string trim(const string &str)
 {

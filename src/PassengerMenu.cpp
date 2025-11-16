@@ -5,6 +5,9 @@
 #include <algorithm>
 #include <cstdlib>
 
+using namespace std;
+#include <cstdlib>
+
 static std::string trim(const std::string &str)
 {
     size_t first = str.find_first_not_of(" \t\n\r");

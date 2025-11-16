@@ -1,5 +1,12 @@
 #include "../include/AdminDashboard.h"
 #include <cstdlib>
+#include <iostream>
+#include <limits>
+#include <sstream>
+#include <algorithm>
+#include <regex>
+
+using namespace std;
 
 AdminDashboard::AdminDashboard(RouteManager &rm, BusManager &bm, DriverManager &dm, ScheduleManager &sm, User *adminUser)
     : routeManager(rm), busManager(bm), driverManager(dm), scheduleManager(sm), admin(adminUser) {}
