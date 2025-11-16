@@ -1,4 +1,4 @@
-#ifndef DISPLAYMANAGER_H
+﻿#ifndef DISPLAYMANAGER_H
 #define DISPLAYMANAGER_H
 
 #include <vector>
@@ -8,14 +8,16 @@
 #include "Schedule.h"
 #include "User.h"
 
+using std::vector;
+
 class DisplayManager
 {
 public:
-    static void displayBuses(const std::vector<Bus> &buses);
-    static void displayDrivers(const std::vector<Driver> &drivers);
-    static void displayRoutes(const std::vector<Route> &routes);
-    static void displaySchedules(const std::vector<Schedule> &schedules);
-    static void displayUsers(const std::vector<User> &users);
+    static void displayBuses(const vector<Bus> &buses);
+    static void displayDrivers(const vector<Driver> &drivers);
+    static void displayRoutes(const vector<Route> &routes);
+    static void displaySchedules(const vector<Schedule> &schedules);
+    static void displayUsers(const vector<User> &users);
 
     static void displayBus(const Bus &bus);
     static void displayDriver(const Driver &driver);
@@ -23,7 +25,7 @@ public:
     static void displaySchedule(const Schedule &schedule);
 
     static void printSeparator(int width = 100);
-    static void printHeader(const std::string &title);
+    static void printHeader(const string &title);
 };
 
 #endif

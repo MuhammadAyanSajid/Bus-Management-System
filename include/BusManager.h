@@ -1,28 +1,31 @@
-#ifndef BUSMANAGER_H
+﻿#ifndef BUSMANAGER_H
 #define BUSMANAGER_H
 
 #include <string>
 #include <vector>
 #include "Bus.h"
 
+using std::string;
+using std::vector;
+
 class BusManager
 {
 private:
-    std::vector<Bus> &buses;
-    std::string dataFile;
+    vector<Bus> &buses;
+    string dataFile;
 
 public:
     // Constructor
-    BusManager(std::vector<Bus> &busList, const std::string &filename);
+    BusManager(vector<Bus> &busList, const string &filename);
 
     // CRUD operations
     bool addBus(const Bus &newBus);
-    bool updateBus(const std::string &busId, const Bus &updatedBus);
-    bool removeBus(const std::string &busId);
+    bool updateBus(const string &busId, const Bus &updatedBus);
+    bool removeBus(const string &busId);
 
     // Query operations
-    Bus *findBus(const std::string &busId);
-    bool busExists(const std::string &busId) const;
+    Bus *findBus(const string &busId);
+    bool busExists(const string &busId) const;
 
     // Save to file
     bool saveToFile();

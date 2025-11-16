@@ -1,53 +1,55 @@
-#include "../include/RouteManager.h"
+﻿#include "../include/RouteManager.h"
 #include "../include/DataSaver.h"
 #include "../include/DisplayManager.h"
 #include <iostream>
 #include <algorithm>
 
-RouteManager::RouteManager(std::vector<Route> &routeList, const std::string &filename)
+using namespace std;
+
+RouteManager::RouteManager(vector<Route> &routeList, const string &filename)
     : routes(routeList), dataFile(filename) {}
 
 bool RouteManager::validateRoute(const Route &route) const
 {
     if (route.getId().empty())
     {
-        std::cout << "Error: Route ID cannot be empty." << std::endl;
+        cout << "Error: Route ID cannot be empty." << endl;
         return false;
     }
 
     if (route.getOrigin().empty() || route.getDestination().empty())
     {
-        std::cout << "Error: Origin and destination must be provided." << std::endl;
+        cout << "Error: Origin and destination must be provided." << endl;
         return false;
     }
 
     if (route.getOrigin() == route.getDestination())
     {
-        std::cout << "Error: Origin and destination must be different." << std::endl;
+        cout << "Error: Origin and destination must be different." << endl;
         return false;
     }
 
     if (route.getEstimatedTravelTime() <= 0)
     {
-        std::cout << "Error: Travel time must be positive." << std::endl;
+        cout << "Error: Travel time must be positive." << endl;
         return false;
     }
 
     return true;
 }
 
-bool RouteManager::routeExists(const std::string &routeId) const
+bool RouteManager::routeExists(const string &routeId) const
 {
-    return std::any_of(routes.begin(), routes.end(),
-                       [&routeId](const Route &r)
-                       { return r.getId() == routeId; });
+    return any_of(routes.begin(), routes.end(),
+                  [&routeId](const Route &r)
+                  { return r.getId() == routeId; });
 }
 
-Route *RouteManager::findRoute(const std::string &routeId)
+Route *RouteManager::findRoute(const string &routeId)
 {
-    auto it = std::find_if(routes.begin(), routes.end(),
-                           [&routeId](const Route &r)
-                           { return r.getId() == routeId; });
+    auto it = find_if(routes.begin(), routes.end(),
+                      [&routeId](const Route &r)
+                      { return r.getId() == routeId; });
 
     if (it != routes.end())
     {
@@ -65,22 +67,22 @@ bool RouteManager::addRoute(const Route &newRoute)
 
     if (routeExists(newRoute.getId()))
     {
-        std::cout << "Error: Route with ID " << newRoute.getId() << " already exists." << std::endl;
+        cout << "Error: Route with ID " << newRoute.getId() << " already exists." << endl;
         return false;
     }
 
     routes.push_back(newRoute);
-    std::cout << "Route " << newRoute.getId() << " added successfully." << std::endl;
+    cout << "Route " << newRoute.getId() << " added successfully." << endl;
 
     return saveToFile();
 }
 
-bool RouteManager::updateRoute(const std::string &routeId, const Route &updatedRoute)
+bool RouteManager::updateRoute(const string &routeId, const Route &updatedRoute)
 {
     Route *route = findRoute(routeId);
     if (!route)
     {
-        std::cout << "Error: Route with ID " << routeId << " not found." << std::endl;
+        cout << "Error: Route with ID " << routeId << " not found." << endl;
         return false;
     }
 
@@ -90,25 +92,25 @@ bool RouteManager::updateRoute(const std::string &routeId, const Route &updatedR
     }
 
     *route = updatedRoute;
-    std::cout << "Route " << routeId << " updated successfully." << std::endl;
+    cout << "Route " << routeId << " updated successfully." << endl;
 
     return saveToFile();
 }
 
-bool RouteManager::removeRoute(const std::string &routeId)
+bool RouteManager::removeRoute(const string &routeId)
 {
-    auto it = std::find_if(routes.begin(), routes.end(),
-                           [&routeId](const Route &r)
-                           { return r.getId() == routeId; });
+    auto it = find_if(routes.begin(), routes.end(),
+                      [&routeId](const Route &r)
+                      { return r.getId() == routeId; });
 
     if (it == routes.end())
     {
-        std::cout << "Error: Route with ID " << routeId << " not found." << std::endl;
+        cout << "Error: Route with ID " << routeId << " not found." << endl;
         return false;
     }
 
     routes.erase(it);
-    std::cout << "Route " << routeId << " removed successfully." << std::endl;
+    cout << "Route " << routeId << " removed successfully." << endl;
 
     return saveToFile();
 }

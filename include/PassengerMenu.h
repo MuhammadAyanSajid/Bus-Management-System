@@ -1,8 +1,11 @@
-#ifndef PASSENGERMENU_H
+﻿#ifndef PASSENGERMENU_H
 #define PASSENGERMENU_H
 
 #include "RouteManager.h"
 #include <vector>
+
+using std::string;
+using std::vector;
 
 class PassengerMenu
 {
@@ -10,8 +13,8 @@ private:
     RouteManager &routeManager;
 
     void clearInputBuffer();
-    std::string getInput(const std::string &prompt);
-    int getIntInput(const std::string &prompt);
+    string getInput(const string &prompt);
+    int getIntInput(const string &prompt);
 
     void viewAllRoutes();
     void searchByOrigin();

@@ -1,14 +1,16 @@
-#include "../include/DataSaver.h"
+﻿#include "../include/DataSaver.h"
 #include <fstream>
 #include <iostream>
 
-bool DataSaver::saveBuses(const std::string &filename, const std::vector<Bus> &buses)
+using namespace std;
+
+bool DataSaver::saveBuses(const string &filename, const vector<Bus> &buses)
 {
-    std::ofstream file(filename);
+    ofstream file(filename);
 
     if (!file.is_open())
     {
-        std::cerr << "Error: Could not open file " << filename << " for writing." << std::endl;
+        cerr << "Error: Could not open file " << filename << " for writing." << endl;
         return false;
     }
 
@@ -17,21 +19,21 @@ bool DataSaver::saveBuses(const std::string &filename, const std::vector<Bus> &b
         file << bus.getId() << ","
              << bus.getCapacity() << ","
              << bus.getModel() << ","
-             << bus.getStatus() << std::endl;
+             << bus.getStatus() << endl;
     }
 
     file.close();
-    std::cout << "Successfully saved " << buses.size() << " buses to " << filename << std::endl;
+    cout << "Successfully saved " << buses.size() << " buses to " << filename << endl;
     return true;
 }
 
-bool DataSaver::saveDrivers(const std::string &filename, const std::vector<Driver> &drivers)
+bool DataSaver::saveDrivers(const string &filename, const vector<Driver> &drivers)
 {
-    std::ofstream file(filename);
+    ofstream file(filename);
 
     if (!file.is_open())
     {
-        std::cerr << "Error: Could not open file " << filename << " for writing." << std::endl;
+        cerr << "Error: Could not open file " << filename << " for writing." << endl;
         return false;
     }
 
@@ -40,21 +42,21 @@ bool DataSaver::saveDrivers(const std::string &filename, const std::vector<Drive
         file << driver.getId() << ","
              << driver.getName() << ","
              << driver.getContactInfo() << ","
-             << driver.getLicenseDetails() << std::endl;
+             << driver.getLicenseDetails() << endl;
     }
 
     file.close();
-    std::cout << "Successfully saved " << drivers.size() << " drivers to " << filename << std::endl;
+    cout << "Successfully saved " << drivers.size() << " drivers to " << filename << endl;
     return true;
 }
 
-bool DataSaver::saveRoutes(const std::string &filename, const std::vector<Route> &routes)
+bool DataSaver::saveRoutes(const string &filename, const vector<Route> &routes)
 {
-    std::ofstream file(filename);
+    ofstream file(filename);
 
     if (!file.is_open())
     {
-        std::cerr << "Error: Could not open file " << filename << " for writing." << std::endl;
+        cerr << "Error: Could not open file " << filename << " for writing." << endl;
         return false;
     }
 
@@ -64,21 +66,21 @@ bool DataSaver::saveRoutes(const std::string &filename, const std::vector<Route>
              << route.getOrigin() << ","
              << route.getDestination() << ","
              << route.getStopsAsString() << ","
-             << route.getEstimatedTravelTime() << std::endl;
+             << route.getEstimatedTravelTime() << endl;
     }
 
     file.close();
-    std::cout << "Successfully saved " << routes.size() << " routes to " << filename << std::endl;
+    cout << "Successfully saved " << routes.size() << " routes to " << filename << endl;
     return true;
 }
 
-bool DataSaver::saveSchedules(const std::string &filename, const std::vector<Schedule> &schedules)
+bool DataSaver::saveSchedules(const string &filename, const vector<Schedule> &schedules)
 {
-    std::ofstream file(filename);
+    ofstream file(filename);
 
     if (!file.is_open())
     {
-        std::cerr << "Error: Could not open file " << filename << " for writing." << std::endl;
+        cerr << "Error: Could not open file " << filename << " for writing." << endl;
         return false;
     }
 
@@ -90,21 +92,21 @@ bool DataSaver::saveSchedules(const std::string &filename, const std::vector<Sch
              << schedule.getDriverId() << ","
              << schedule.getDate() << ","
              << schedule.getDepartureTime() << ","
-             << schedule.getArrivalTime() << std::endl;
+             << schedule.getArrivalTime() << endl;
     }
 
     file.close();
-    std::cout << "Successfully saved " << schedules.size() << " schedules to " << filename << std::endl;
+    cout << "Successfully saved " << schedules.size() << " schedules to " << filename << endl;
     return true;
 }
 
-bool DataSaver::saveCredentials(const std::string &filename, const std::vector<User> &users)
+bool DataSaver::saveCredentials(const string &filename, const vector<User> &users)
 {
-    std::ofstream file(filename);
+    ofstream file(filename);
 
     if (!file.is_open())
     {
-        std::cerr << "Error: Could not open file " << filename << " for writing." << std::endl;
+        cerr << "Error: Could not open file " << filename << " for writing." << endl;
         return false;
     }
 
@@ -112,10 +114,10 @@ bool DataSaver::saveCredentials(const std::string &filename, const std::vector<U
     {
         file << user.getUsername() << ","
              << user.getPassword() << ","
-             << user.getRoleString() << std::endl;
+             << user.getRoleString() << endl;
     }
 
     file.close();
-    std::cout << "Successfully saved " << users.size() << " users to " << filename << std::endl;
+    cout << "Successfully saved " << users.size() << " users to " << filename << endl;
     return true;
 }

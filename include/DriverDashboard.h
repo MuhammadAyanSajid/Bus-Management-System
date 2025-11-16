@@ -1,4 +1,4 @@
-#ifndef DRIVERDASHBOARD_H
+﻿#ifndef DRIVERDASHBOARD_H
 #define DRIVERDASHBOARD_H
 
 #include "ScheduleManager.h"
@@ -14,12 +14,12 @@ private:
     DriverManager &driverManager;
     BusManager &busManager;
     User *driver;
-    std::string driverId;
+    string driverId;
 
     // Helper functions
     void clearInputBuffer();
-    std::string getInput(const std::string &prompt);
-    int getIntInput(const std::string &prompt);
+    string getInput(const string &prompt);
+    int getIntInput(const string &prompt);
 
     // Dashboard functions
     void viewAssignedSchedule();
@@ -30,7 +30,7 @@ private:
 
 public:
     // Constructor
-    DriverDashboard(ScheduleManager &sm, DriverManager &dm, BusManager &bm, User *driverUser, const std::string &dId);
+    DriverDashboard(ScheduleManager &sm, DriverManager &dm, BusManager &bm, User *driverUser, const string &dId);
 
     // Main dashboard
     void show();

@@ -1,8 +1,10 @@
-#ifndef USER_H
+﻿#ifndef USER_H
 #define USER_H
 
 #include <string>
 #include <iostream>
+
+using std::string;
 
 enum class UserRole
 {
@@ -14,28 +16,28 @@ enum class UserRole
 class User
 {
 private:
-    std::string username;
-    std::string password;
+    string username;
+    string password;
     UserRole role;
 
 public:
     User();
-    User(const std::string &username, const std::string &password, UserRole role);
+    User(const string &username, const string &password, UserRole role);
 
-    std::string getUsername() const;
-    std::string getPassword() const;
+    string getUsername() const;
+    string getPassword() const;
     UserRole getRole() const;
-    std::string getRoleString() const;
+    string getRoleString() const;
 
-    void setUsername(const std::string &username);
-    void setPassword(const std::string &password);
+    void setUsername(const string &username);
+    void setPassword(const string &password);
     void setRole(UserRole role);
 
-    bool authenticate(const std::string &inputUsername, const std::string &inputPassword) const;
+    bool authenticate(const string &inputUsername, const string &inputPassword) const;
 
     void display() const;
 
-    static UserRole stringToRole(const std::string &roleStr);
+    static UserRole stringToRole(const string &roleStr);
 };
 
 #endif

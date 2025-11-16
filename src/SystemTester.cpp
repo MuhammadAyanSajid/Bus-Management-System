@@ -1,57 +1,59 @@
-#include "../include/SystemTester.h"
+﻿#include "../include/SystemTester.h"
 #include "../include/DataLoader.h"
 #include <iostream>
 #include <iomanip>
 
+using namespace std;
+
 SystemTester::SystemTester() : testsRun(0), testsPassed(0), testsFailed(0) {}
 
-void SystemTester::logTest(const std::string &testName, bool passed, const std::string &message)
+void SystemTester::logTest(const string &testName, bool passed, const string &message)
 {
     testsRun++;
     if (passed)
     {
         testsPassed++;
-        std::cout << "  [PASS] " << testName << std::endl;
+        cout << "  [PASS] " << testName << endl;
     }
     else
     {
         testsFailed++;
-        std::cout << "  [FAIL] " << testName;
+        cout << "  [FAIL] " << testName;
         if (!message.empty())
         {
-            std::cout << " - " << message;
+            cout << " - " << message;
         }
-        std::cout << std::endl;
+        cout << endl;
     }
 }
 
-void SystemTester::printTestHeader(const std::string &category)
+void SystemTester::printTestHeader(const string &category)
 {
-    std::cout << "\n========================================" << std::endl;
-    std::cout << "  " << category << std::endl;
-    std::cout << "========================================" << std::endl;
+    cout << "\n========================================" << endl;
+    cout << "  " << category << endl;
+    cout << "========================================" << endl;
 }
 
 bool SystemTester::testDataLoading()
 {
     printTestHeader("DATA LOADING TESTS");
 
-    std::vector<Bus> buses = DataLoader::loadBuses("data/buses.txt");
+    vector<Bus> buses = DataLoader::loadBuses("data/buses.txt");
     logTest("Load buses from file", buses.size() > 0);
 
-    std::vector<Driver> drivers = DataLoader::loadDrivers("data/drivers.txt");
+    vector<Driver> drivers = DataLoader::loadDrivers("data/drivers.txt");
     logTest("Load drivers from file", drivers.size() > 0);
 
-    std::vector<Route> routes = DataLoader::loadRoutes("data/routes.txt");
+    vector<Route> routes = DataLoader::loadRoutes("data/routes.txt");
     logTest("Load routes from file", routes.size() > 0);
 
-    std::vector<Schedule> schedules = DataLoader::loadSchedules("data/schedules.txt");
+    vector<Schedule> schedules = DataLoader::loadSchedules("data/schedules.txt");
     logTest("Load schedules from file", schedules.size() > 0);
 
-    std::vector<User> users = DataLoader::loadCredentials("data/credentials.txt");
+    vector<User> users = DataLoader::loadCredentials("data/credentials.txt");
     logTest("Load credentials from file", users.size() > 0);
 
-    std::vector<Bus> emptyBuses = DataLoader::loadBuses("data/nonexistent.txt");
+    vector<Bus> emptyBuses = DataLoader::loadBuses("data/nonexistent.txt");
     logTest("Handle missing file gracefully", emptyBuses.size() == 0);
 
     return true;
@@ -147,7 +149,7 @@ bool SystemTester::testRouteValidation(RouteManager &routeManager)
 {
     printTestHeader("ROUTE VALIDATION TESTS");
 
-    std::vector<std::string> stops = {"Stop1", "Stop2", "Stop3"};
+    vector<string> stops = {"Stop1", "Stop2", "Stop3"};
     Route validRoute("TEST_R001", "Origin A", "Destination B", stops, 60);
     bool addValid = routeManager.addRoute(validRoute);
     logTest("Add valid route", addValid);
@@ -316,7 +318,7 @@ bool SystemTester::testCRUDOperations(RouteManager &rm, BusManager &bm,
                 driverCreate && driverRead && driverUpdate && driverDelete);
     }
 
-    std::vector<std::string> testStops = {"CRUDStop1", "CRUDStop2"};
+    vector<string> testStops = {"CRUDStop1", "CRUDStop2"};
     Route testRoute("CRUD_R001", "CRUD Origin", "CRUD Dest", testStops, 45);
     bool routeCreate = rm.addRoute(testRoute);
     Route *foundRoute = rm.findRoute("CRUD_R001");
@@ -356,10 +358,10 @@ bool SystemTester::testEdgeCases(RouteManager &rm, BusManager &bm,
     if (handleMaxCap)
         bm.removeBus("EDGE_B001");
 
-    std::vector<std::string> manyStops;
+    vector<string> manyStops;
     for (int i = 1; i <= 20; i++)
     {
-        manyStops.push_back("Stop" + std::to_string(i));
+        manyStops.push_back("Stop" + to_string(i));
     }
     Route manyStopsRoute("EDGE_R001", "Start", "End", manyStops, 180);
     bool handleManyStops = rm.addRoute(manyStopsRoute);
@@ -385,10 +387,10 @@ bool SystemTester::testEdgeCases(RouteManager &rm, BusManager &bm,
 void SystemTester::runAllTests(RouteManager &rm, BusManager &bm, DriverManager &dm,
                                ScheduleManager &sm, LoginManager &lm)
 {
-    std::cout << "\n";
-    std::cout << "========================================" << std::endl;
-    std::cout << "  BUS MANAGEMENT SYSTEM TEST SUITE" << std::endl;
-    std::cout << "========================================" << std::endl;
+    cout << "\n";
+    cout << "========================================" << endl;
+    cout << "  BUS MANAGEMENT SYSTEM TEST SUITE" << endl;
+    cout << "========================================" << endl;
 
     testDataLoading();
     testBusValidation(bm);
@@ -403,24 +405,24 @@ void SystemTester::runAllTests(RouteManager &rm, BusManager &bm, DriverManager &
 
 void SystemTester::displayResults()
 {
-    std::cout << "\n";
-    std::cout << "========================================" << std::endl;
-    std::cout << "  TEST RESULTS SUMMARY" << std::endl;
-    std::cout << "========================================" << std::endl;
-    std::cout << "Total Tests Run:    " << testsRun << std::endl;
-    std::cout << "Tests Passed:       " << testsPassed << " ("
-              << std::fixed << std::setprecision(1)
-              << (testsRun > 0 ? (testsPassed * 100.0 / testsRun) : 0) << "%)" << std::endl;
-    std::cout << "Tests Failed:       " << testsFailed << std::endl;
-    std::cout << "========================================" << std::endl;
+    cout << "\n";
+    cout << "========================================" << endl;
+    cout << "  TEST RESULTS SUMMARY" << endl;
+    cout << "========================================" << endl;
+    cout << "Total Tests Run:    " << testsRun << endl;
+    cout << "Tests Passed:       " << testsPassed << " ("
+         << fixed << setprecision(1)
+         << (testsRun > 0 ? (testsPassed * 100.0 / testsRun) : 0) << "%)" << endl;
+    cout << "Tests Failed:       " << testsFailed << endl;
+    cout << "========================================" << endl;
 
     if (testsFailed == 0)
     {
-        std::cout << "\n✓ ALL TESTS PASSED! System is working correctly." << std::endl;
+        cout << "\nâœ“ ALL TESTS PASSED! System is working correctly." << endl;
     }
     else
     {
-        std::cout << "\n✗ Some tests failed. Please review the results above." << std::endl;
+        cout << "\nâœ— Some tests failed. Please review the results above." << endl;
     }
-    std::cout << "\n";
+    cout << "\n";
 }

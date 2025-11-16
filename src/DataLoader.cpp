@@ -1,15 +1,17 @@
-#include "../include/DataLoader.h"
+﻿#include "../include/DataLoader.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
 
-std::vector<std::string> DataLoader::splitCSV(const std::string &line, char delimiter)
-{
-    std::vector<std::string> tokens;
-    std::stringstream ss(line);
-    std::string token;
+using namespace std;
 
-    while (std::getline(ss, token, delimiter))
+vector<string> DataLoader::splitCSV(const string &line, char delimiter)
+{
+    vector<string> tokens;
+    stringstream ss(line);
+    string token;
+
+    while (getline(ss, token, delimiter))
     {
         tokens.push_back(token);
     }
@@ -17,31 +19,31 @@ std::vector<std::string> DataLoader::splitCSV(const std::string &line, char deli
     return tokens;
 }
 
-std::vector<std::string> DataLoader::parseKeyStops(const std::string &stopsStr)
+vector<string> DataLoader::parseKeyStops(const string &stopsStr)
 {
     return splitCSV(stopsStr, '|');
 }
 
-void DataLoader::logError(const std::string &filename, int lineNumber, const std::string &error)
+void DataLoader::logError(const string &filename, int lineNumber, const string &error)
 {
-    std::cerr << "Error in " << filename << " at line " << lineNumber << ": " << error << std::endl;
+    cerr << "Error in " << filename << " at line " << lineNumber << ": " << error << endl;
 }
 
-std::vector<Bus> DataLoader::loadBuses(const std::string &filename)
+vector<Bus> DataLoader::loadBuses(const string &filename)
 {
-    std::vector<Bus> buses;
-    std::ifstream file(filename);
+    vector<Bus> buses;
+    ifstream file(filename);
 
     if (!file.is_open())
     {
-        std::cerr << "Error: Could not open file " << filename << std::endl;
+        cerr << "Error: Could not open file " << filename << endl;
         return buses;
     }
 
-    std::string line;
+    string line;
     int lineNumber = 0;
 
-    while (std::getline(file, line))
+    while (getline(file, line))
     {
         lineNumber++;
 
@@ -50,49 +52,49 @@ std::vector<Bus> DataLoader::loadBuses(const std::string &filename)
             continue;
         }
 
-        std::vector<std::string> tokens = splitCSV(line);
+        vector<string> tokens = splitCSV(line);
 
         if (tokens.size() != 4)
         {
-            logError(filename, lineNumber, "Expected 4 fields, got " + std::to_string(tokens.size()));
+            logError(filename, lineNumber, "Expected 4 fields, got " + to_string(tokens.size()));
             continue;
         }
 
         try
         {
-            std::string id = tokens[0];
-            int capacity = std::stoi(tokens[1]);
-            std::string model = tokens[2];
-            std::string status = tokens[3];
+            string id = tokens[0];
+            int capacity = stoi(tokens[1]);
+            string model = tokens[2];
+            string status = tokens[3];
 
             buses.push_back(Bus(id, capacity, model, status));
         }
-        catch (const std::exception &e)
+        catch (const exception &e)
         {
-            logError(filename, lineNumber, "Parsing error: " + std::string(e.what()));
+            logError(filename, lineNumber, "Parsing error: " + string(e.what()));
         }
     }
 
     file.close();
-    std::cout << "Loaded " << buses.size() << " buses from " << filename << std::endl;
+    cout << "Loaded " << buses.size() << " buses from " << filename << endl;
     return buses;
 }
 
-std::vector<Driver> DataLoader::loadDrivers(const std::string &filename)
+vector<Driver> DataLoader::loadDrivers(const string &filename)
 {
-    std::vector<Driver> drivers;
-    std::ifstream file(filename);
+    vector<Driver> drivers;
+    ifstream file(filename);
 
     if (!file.is_open())
     {
-        std::cerr << "Error: Could not open file " << filename << std::endl;
+        cerr << "Error: Could not open file " << filename << endl;
         return drivers;
     }
 
-    std::string line;
+    string line;
     int lineNumber = 0;
 
-    while (std::getline(file, line))
+    while (getline(file, line))
     {
         lineNumber++;
 
@@ -101,42 +103,42 @@ std::vector<Driver> DataLoader::loadDrivers(const std::string &filename)
             continue;
         }
 
-        std::vector<std::string> tokens = splitCSV(line);
+        vector<string> tokens = splitCSV(line);
 
         if (tokens.size() != 4)
         {
-            logError(filename, lineNumber, "Expected 4 fields, got " + std::to_string(tokens.size()));
+            logError(filename, lineNumber, "Expected 4 fields, got " + to_string(tokens.size()));
             continue;
         }
 
-        std::string id = tokens[0];
-        std::string name = tokens[1];
-        std::string contactInfo = tokens[2];
-        std::string licenseDetails = tokens[3];
+        string id = tokens[0];
+        string name = tokens[1];
+        string contactInfo = tokens[2];
+        string licenseDetails = tokens[3];
 
         drivers.push_back(Driver(id, name, contactInfo, licenseDetails));
     }
 
     file.close();
-    std::cout << "Loaded " << drivers.size() << " drivers from " << filename << std::endl;
+    cout << "Loaded " << drivers.size() << " drivers from " << filename << endl;
     return drivers;
 }
 
-std::vector<Route> DataLoader::loadRoutes(const std::string &filename)
+vector<Route> DataLoader::loadRoutes(const string &filename)
 {
-    std::vector<Route> routes;
-    std::ifstream file(filename);
+    vector<Route> routes;
+    ifstream file(filename);
 
     if (!file.is_open())
     {
-        std::cerr << "Error: Could not open file " << filename << std::endl;
+        cerr << "Error: Could not open file " << filename << endl;
         return routes;
     }
 
-    std::string line;
+    string line;
     int lineNumber = 0;
 
-    while (std::getline(file, line))
+    while (getline(file, line))
     {
         lineNumber++;
 
@@ -145,50 +147,50 @@ std::vector<Route> DataLoader::loadRoutes(const std::string &filename)
             continue;
         }
 
-        std::vector<std::string> tokens = splitCSV(line);
+        vector<string> tokens = splitCSV(line);
 
         if (tokens.size() != 5)
         {
-            logError(filename, lineNumber, "Expected 5 fields, got " + std::to_string(tokens.size()));
+            logError(filename, lineNumber, "Expected 5 fields, got " + to_string(tokens.size()));
             continue;
         }
 
         try
         {
-            std::string id = tokens[0];
-            std::string origin = tokens[1];
-            std::string destination = tokens[2];
-            std::vector<std::string> keyStops = parseKeyStops(tokens[3]);
-            int estimatedTravelTime = std::stoi(tokens[4]);
+            string id = tokens[0];
+            string origin = tokens[1];
+            string destination = tokens[2];
+            vector<string> keyStops = parseKeyStops(tokens[3]);
+            int estimatedTravelTime = stoi(tokens[4]);
 
             routes.push_back(Route(id, origin, destination, keyStops, estimatedTravelTime));
         }
-        catch (const std::exception &e)
+        catch (const exception &e)
         {
-            logError(filename, lineNumber, "Parsing error: " + std::string(e.what()));
+            logError(filename, lineNumber, "Parsing error: " + string(e.what()));
         }
     }
 
     file.close();
-    std::cout << "Loaded " << routes.size() << " routes from " << filename << std::endl;
+    cout << "Loaded " << routes.size() << " routes from " << filename << endl;
     return routes;
 }
 
-std::vector<Schedule> DataLoader::loadSchedules(const std::string &filename)
+vector<Schedule> DataLoader::loadSchedules(const string &filename)
 {
-    std::vector<Schedule> schedules;
-    std::ifstream file(filename);
+    vector<Schedule> schedules;
+    ifstream file(filename);
 
     if (!file.is_open())
     {
-        std::cerr << "Error: Could not open file " << filename << std::endl;
+        cerr << "Error: Could not open file " << filename << endl;
         return schedules;
     }
 
-    std::string line;
+    string line;
     int lineNumber = 0;
 
-    while (std::getline(file, line))
+    while (getline(file, line))
     {
         lineNumber++;
 
@@ -197,45 +199,45 @@ std::vector<Schedule> DataLoader::loadSchedules(const std::string &filename)
             continue;
         }
 
-        std::vector<std::string> tokens = splitCSV(line);
+        vector<string> tokens = splitCSV(line);
 
         if (tokens.size() != 7)
         {
-            logError(filename, lineNumber, "Expected 7 fields, got " + std::to_string(tokens.size()));
+            logError(filename, lineNumber, "Expected 7 fields, got " + to_string(tokens.size()));
             continue;
         }
 
-        std::string id = tokens[0];
-        std::string routeId = tokens[1];
-        std::string busId = tokens[2];
-        std::string driverId = tokens[3];
-        std::string date = tokens[4];
-        std::string departureTime = tokens[5];
-        std::string arrivalTime = tokens[6];
+        string id = tokens[0];
+        string routeId = tokens[1];
+        string busId = tokens[2];
+        string driverId = tokens[3];
+        string date = tokens[4];
+        string departureTime = tokens[5];
+        string arrivalTime = tokens[6];
 
         schedules.push_back(Schedule(id, routeId, busId, driverId, date, departureTime, arrivalTime));
     }
 
     file.close();
-    std::cout << "Loaded " << schedules.size() << " schedules from " << filename << std::endl;
+    cout << "Loaded " << schedules.size() << " schedules from " << filename << endl;
     return schedules;
 }
 
-std::vector<User> DataLoader::loadCredentials(const std::string &filename)
+vector<User> DataLoader::loadCredentials(const string &filename)
 {
-    std::vector<User> users;
-    std::ifstream file(filename);
+    vector<User> users;
+    ifstream file(filename);
 
     if (!file.is_open())
     {
-        std::cerr << "Error: Could not open file " << filename << std::endl;
+        cerr << "Error: Could not open file " << filename << endl;
         return users;
     }
 
-    std::string line;
+    string line;
     int lineNumber = 0;
 
-    while (std::getline(file, line))
+    while (getline(file, line))
     {
         lineNumber++;
 
@@ -244,22 +246,22 @@ std::vector<User> DataLoader::loadCredentials(const std::string &filename)
             continue;
         }
 
-        std::vector<std::string> tokens = splitCSV(line);
+        vector<string> tokens = splitCSV(line);
 
         if (tokens.size() != 3)
         {
-            logError(filename, lineNumber, "Expected 3 fields, got " + std::to_string(tokens.size()));
+            logError(filename, lineNumber, "Expected 3 fields, got " + to_string(tokens.size()));
             continue;
         }
 
-        std::string username = tokens[0];
-        std::string password = tokens[1];
+        string username = tokens[0];
+        string password = tokens[1];
         UserRole role = User::stringToRole(tokens[2]);
 
         users.push_back(User(username, password, role));
     }
 
     file.close();
-    std::cout << "Loaded " << users.size() << " user credentials from " << filename << std::endl;
+    cout << "Loaded " << users.size() << " user credentials from " << filename << endl;
     return users;
 }

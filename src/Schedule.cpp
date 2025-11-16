@@ -1,98 +1,100 @@
-#include "../include/Schedule.h"
+﻿#include "../include/Schedule.h"
 #include <iomanip>
+
+using namespace std;
 
 Schedule::Schedule()
     : id(""), routeId(""), busId(""), driverId(""),
       date(""), departureTime(""), arrivalTime("") {}
 
-Schedule::Schedule(const std::string &id, const std::string &routeId,
-                   const std::string &busId, const std::string &driverId,
-                   const std::string &date, const std::string &departureTime,
-                   const std::string &arrivalTime)
+Schedule::Schedule(const string &id, const string &routeId,
+                   const string &busId, const string &driverId,
+                   const string &date, const string &departureTime,
+                   const string &arrivalTime)
     : id(id), routeId(routeId), busId(busId), driverId(driverId),
       date(date), departureTime(departureTime), arrivalTime(arrivalTime) {}
 
-std::string Schedule::getId() const
+string Schedule::getId() const
 {
     return id;
 }
 
-std::string Schedule::getRouteId() const
+string Schedule::getRouteId() const
 {
     return routeId;
 }
 
-std::string Schedule::getBusId() const
+string Schedule::getBusId() const
 {
     return busId;
 }
 
-std::string Schedule::getDriverId() const
+string Schedule::getDriverId() const
 {
     return driverId;
 }
 
-std::string Schedule::getDate() const
+string Schedule::getDate() const
 {
     return date;
 }
 
-std::string Schedule::getDepartureTime() const
+string Schedule::getDepartureTime() const
 {
     return departureTime;
 }
 
-std::string Schedule::getArrivalTime() const
+string Schedule::getArrivalTime() const
 {
     return arrivalTime;
 }
 
-void Schedule::setId(const std::string &id)
+void Schedule::setId(const string &id)
 {
     this->id = id;
 }
 
-void Schedule::setRouteId(const std::string &routeId)
+void Schedule::setRouteId(const string &routeId)
 {
     this->routeId = routeId;
 }
 
-void Schedule::setBusId(const std::string &busId)
+void Schedule::setBusId(const string &busId)
 {
     this->busId = busId;
 }
 
-void Schedule::setDriverId(const std::string &driverId)
+void Schedule::setDriverId(const string &driverId)
 {
     this->driverId = driverId;
 }
 
-void Schedule::setDate(const std::string &date)
+void Schedule::setDate(const string &date)
 {
     this->date = date;
 }
 
-void Schedule::setDepartureTime(const std::string &departureTime)
+void Schedule::setDepartureTime(const string &departureTime)
 {
     this->departureTime = departureTime;
 }
 
-void Schedule::setArrivalTime(const std::string &arrivalTime)
+void Schedule::setArrivalTime(const string &arrivalTime)
 {
     this->arrivalTime = arrivalTime;
 }
 
 void Schedule::display() const
 {
-    std::cout << std::left
-              << std::setw(12) << id
-              << std::setw(12) << routeId
-              << std::setw(10) << busId
-              << std::setw(12) << driverId
-              << std::setw(12) << date
-              << std::setw(10) << departureTime
-              << std::setw(10) << arrivalTime
-              << std::endl;
+    cout << left
+         << setw(12) << id
+         << setw(12) << routeId
+         << setw(10) << busId
+         << setw(12) << driverId
+         << setw(12) << date
+         << setw(10) << departureTime
+         << setw(10) << arrivalTime
+         << endl;
 }
 
 bool Schedule::hasTimeOverlap(const Schedule &other) const

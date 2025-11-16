@@ -1,42 +1,44 @@
-#ifndef SCHEDULE_H
+﻿#ifndef SCHEDULE_H
 #define SCHEDULE_H
 
 #include <string>
 #include <iostream>
 
+using std::string;
+
 class Schedule
 {
 private:
-    std::string id;
-    std::string routeId;
-    std::string busId;
-    std::string driverId;
-    std::string date;
-    std::string departureTime;
-    std::string arrivalTime;
+    string id;
+    string routeId;
+    string busId;
+    string driverId;
+    string date;
+    string departureTime;
+    string arrivalTime;
 
 public:
     Schedule();
-    Schedule(const std::string &id, const std::string &routeId,
-             const std::string &busId, const std::string &driverId,
-             const std::string &date, const std::string &departureTime,
-             const std::string &arrivalTime);
+    Schedule(const string &id, const string &routeId,
+             const string &busId, const string &driverId,
+             const string &date, const string &departureTime,
+             const string &arrivalTime);
 
-    std::string getId() const;
-    std::string getRouteId() const;
-    std::string getBusId() const;
-    std::string getDriverId() const;
-    std::string getDate() const;
-    std::string getDepartureTime() const;
-    std::string getArrivalTime() const;
+    string getId() const;
+    string getRouteId() const;
+    string getBusId() const;
+    string getDriverId() const;
+    string getDate() const;
+    string getDepartureTime() const;
+    string getArrivalTime() const;
 
-    void setId(const std::string &id);
-    void setRouteId(const std::string &routeId);
-    void setBusId(const std::string &busId);
-    void setDriverId(const std::string &driverId);
-    void setDate(const std::string &date);
-    void setDepartureTime(const std::string &departureTime);
-    void setArrivalTime(const std::string &arrivalTime);
+    void setId(const string &id);
+    void setRouteId(const string &routeId);
+    void setBusId(const string &busId);
+    void setDriverId(const string &driverId);
+    void setDate(const string &date);
+    void setDepartureTime(const string &departureTime);
+    void setArrivalTime(const string &arrivalTime);
 
     void display() const;
 

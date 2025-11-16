@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include "../include/DataLoader.h"
 #include "../include/RouteManager.h"
 #include "../include/BusManager.h"
@@ -7,22 +7,24 @@
 #include "../include/LoginManager.h"
 #include "../include/SystemTester.h"
 
+using namespace std;
+
 int main()
 {
-    std::cout << "\n";
-    std::cout << "========================================" << std::endl;
-    std::cout << "  INITIALIZING TEST ENVIRONMENT" << std::endl;
-    std::cout << "========================================" << std::endl;
+    cout << "\n";
+    cout << "========================================" << endl;
+    cout << "  INITIALIZING TEST ENVIRONMENT" << endl;
+    cout << "========================================" << endl;
 
     // Load all data
-    const std::string DATA_PATH = "data/";
-    std::vector<Bus> buses = DataLoader::loadBuses(DATA_PATH + "buses.txt");
-    std::vector<Driver> drivers = DataLoader::loadDrivers(DATA_PATH + "drivers.txt");
-    std::vector<Route> routes = DataLoader::loadRoutes(DATA_PATH + "routes.txt");
-    std::vector<Schedule> schedules = DataLoader::loadSchedules(DATA_PATH + "schedules.txt");
-    std::vector<User> users = DataLoader::loadCredentials(DATA_PATH + "credentials.txt");
+    const string DATA_PATH = "data/";
+    vector<Bus> buses = DataLoader::loadBuses(DATA_PATH + "buses.txt");
+    vector<Driver> drivers = DataLoader::loadDrivers(DATA_PATH + "drivers.txt");
+    vector<Route> routes = DataLoader::loadRoutes(DATA_PATH + "routes.txt");
+    vector<Schedule> schedules = DataLoader::loadSchedules(DATA_PATH + "schedules.txt");
+    vector<User> users = DataLoader::loadCredentials(DATA_PATH + "credentials.txt");
 
-    std::cout << "\nTest environment initialized successfully!\n";
+    cout << "\nTest environment initialized successfully!\n";
 
     // Create managers
     LoginManager loginManager(users);

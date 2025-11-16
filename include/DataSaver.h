@@ -1,4 +1,4 @@
-#ifndef DATASAVER_H
+﻿#ifndef DATASAVER_H
 #define DATASAVER_H
 
 #include <string>
@@ -9,15 +9,18 @@
 #include "Schedule.h"
 #include "User.h"
 
+using std::string;
+using std::vector;
+
 class DataSaver
 {
 public:
     // Save functions for each entity type
-    static bool saveBuses(const std::string &filename, const std::vector<Bus> &buses);
-    static bool saveDrivers(const std::string &filename, const std::vector<Driver> &drivers);
-    static bool saveRoutes(const std::string &filename, const std::vector<Route> &routes);
-    static bool saveSchedules(const std::string &filename, const std::vector<Schedule> &schedules);
-    static bool saveCredentials(const std::string &filename, const std::vector<User> &users);
+    static bool saveBuses(const string &filename, const vector<Bus> &buses);
+    static bool saveDrivers(const string &filename, const vector<Driver> &drivers);
+    static bool saveRoutes(const string &filename, const vector<Route> &routes);
+    static bool saveSchedules(const string &filename, const vector<Schedule> &schedules);
+    static bool saveCredentials(const string &filename, const vector<User> &users);
 };
 
 #endif // DATASAVER_H

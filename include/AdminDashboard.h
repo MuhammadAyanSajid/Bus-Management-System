@@ -1,4 +1,4 @@
-#ifndef ADMINDASHBOARD_H
+﻿#ifndef ADMINDASHBOARD_H
 #define ADMINDASHBOARD_H
 
 #include "RouteManager.h"
@@ -42,8 +42,8 @@ private:
     void viewSchedules();
 
     void clearInputBuffer();
-    std::string getInput(const std::string &prompt);
-    int getIntInput(const std::string &prompt);
+    string getInput(const string &prompt);
+    int getIntInput(const string &prompt);
 
 public:
     AdminDashboard(RouteManager &rm, BusManager &bm, DriverManager &dm, ScheduleManager &sm, User *adminUser);

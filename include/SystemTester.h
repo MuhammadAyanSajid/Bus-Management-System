@@ -1,4 +1,4 @@
-#ifndef SYSTEMTESTER_H
+﻿#ifndef SYSTEMTESTER_H
 #define SYSTEMTESTER_H
 
 #include <string>
@@ -9,6 +9,9 @@
 #include "ScheduleManager.h"
 #include "LoginManager.h"
 
+using std::string;
+using std::vector;
+
 class SystemTester
 {
 private:
@@ -17,8 +20,8 @@ private:
     int testsFailed;
 
     // Test result tracking
-    void logTest(const std::string &testName, bool passed, const std::string &message = "");
-    void printTestHeader(const std::string &category);
+    void logTest(const string &testName, bool passed, const string &message = "");
+    void printTestHeader(const string &category);
 
     // Individual test methods
     bool testDataLoading();

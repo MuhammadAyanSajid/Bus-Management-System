@@ -1,4 +1,4 @@
-#ifndef DATALOADER_H
+﻿#ifndef DATALOADER_H
 #define DATALOADER_H
 
 #include <string>
@@ -9,21 +9,24 @@
 #include "Schedule.h"
 #include "User.h"
 
+using std::string;
+using std::vector;
+
 class DataLoader
 {
 public:
-    static std::vector<Bus> loadBuses(const std::string &filename);
-    static std::vector<Driver> loadDrivers(const std::string &filename);
-    static std::vector<Route> loadRoutes(const std::string &filename);
-    static std::vector<Schedule> loadSchedules(const std::string &filename);
-    static std::vector<User> loadCredentials(const std::string &filename);
+    static vector<Bus> loadBuses(const string &filename);
+    static vector<Driver> loadDrivers(const string &filename);
+    static vector<Route> loadRoutes(const string &filename);
+    static vector<Schedule> loadSchedules(const string &filename);
+    static vector<User> loadCredentials(const string &filename);
 
-    static std::vector<std::string> splitCSV(const std::string &line, char delimiter = ',');
+    static vector<string> splitCSV(const string &line, char delimiter = ',');
 
-    static std::vector<std::string> parseKeyStops(const std::string &stopsStr);
+    static vector<string> parseKeyStops(const string &stopsStr);
 
 private:
-    static void logError(const std::string &filename, int lineNumber, const std::string &error);
+    static void logError(const string &filename, int lineNumber, const string &error);
 };
 
 #endif

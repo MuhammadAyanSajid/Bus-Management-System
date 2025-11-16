@@ -1,54 +1,56 @@
-#include "../include/BusManager.h"
+﻿#include "../include/BusManager.h"
 #include "../include/DataSaver.h"
 #include "../include/DisplayManager.h"
 #include <iostream>
 #include <algorithm>
 
-BusManager::BusManager(std::vector<Bus> &busList, const std::string &filename)
+using namespace std;
+
+BusManager::BusManager(vector<Bus> &busList, const string &filename)
     : buses(busList), dataFile(filename) {}
 
 bool BusManager::validateBus(const Bus &bus) const
 {
     if (bus.getId().empty())
     {
-        std::cout << "Error: Bus ID cannot be empty." << std::endl;
+        cout << "Error: Bus ID cannot be empty." << endl;
         return false;
     }
 
     if (bus.getCapacity() <= 0)
     {
-        std::cout << "Error: Bus capacity must be positive." << std::endl;
+        cout << "Error: Bus capacity must be positive." << endl;
         return false;
     }
 
     if (bus.getModel().empty())
     {
-        std::cout << "Error: Bus model must be provided." << std::endl;
+        cout << "Error: Bus model must be provided." << endl;
         return false;
     }
 
-    std::string status = bus.getStatus();
+    string status = bus.getStatus();
     if (status != "Active" && status != "Maintenance" && status != "Inactive")
     {
-        std::cout << "Error: Bus status must be Active, Maintenance, or Inactive." << std::endl;
+        cout << "Error: Bus status must be Active, Maintenance, or Inactive." << endl;
         return false;
     }
 
     return true;
 }
 
-bool BusManager::busExists(const std::string &busId) const
+bool BusManager::busExists(const string &busId) const
 {
-    return std::any_of(buses.begin(), buses.end(),
-                       [&busId](const Bus &b)
-                       { return b.getId() == busId; });
+    return any_of(buses.begin(), buses.end(),
+                  [&busId](const Bus &b)
+                  { return b.getId() == busId; });
 }
 
-Bus *BusManager::findBus(const std::string &busId)
+Bus *BusManager::findBus(const string &busId)
 {
-    auto it = std::find_if(buses.begin(), buses.end(),
-                           [&busId](const Bus &b)
-                           { return b.getId() == busId; });
+    auto it = find_if(buses.begin(), buses.end(),
+                      [&busId](const Bus &b)
+                      { return b.getId() == busId; });
 
     if (it != buses.end())
     {
@@ -66,22 +68,22 @@ bool BusManager::addBus(const Bus &newBus)
 
     if (busExists(newBus.getId()))
     {
-        std::cout << "Error: Bus with ID " << newBus.getId() << " already exists." << std::endl;
+        cout << "Error: Bus with ID " << newBus.getId() << " already exists." << endl;
         return false;
     }
 
     buses.push_back(newBus);
-    std::cout << "Bus " << newBus.getId() << " added successfully." << std::endl;
+    cout << "Bus " << newBus.getId() << " added successfully." << endl;
 
     return saveToFile();
 }
 
-bool BusManager::updateBus(const std::string &busId, const Bus &updatedBus)
+bool BusManager::updateBus(const string &busId, const Bus &updatedBus)
 {
     Bus *bus = findBus(busId);
     if (!bus)
     {
-        std::cout << "Error: Bus with ID " << busId << " not found." << std::endl;
+        cout << "Error: Bus with ID " << busId << " not found." << endl;
         return false;
     }
 
@@ -91,25 +93,25 @@ bool BusManager::updateBus(const std::string &busId, const Bus &updatedBus)
     }
 
     *bus = updatedBus;
-    std::cout << "Bus " << busId << " updated successfully." << std::endl;
+    cout << "Bus " << busId << " updated successfully." << endl;
 
     return saveToFile();
 }
 
-bool BusManager::removeBus(const std::string &busId)
+bool BusManager::removeBus(const string &busId)
 {
-    auto it = std::find_if(buses.begin(), buses.end(),
-                           [&busId](const Bus &b)
-                           { return b.getId() == busId; });
+    auto it = find_if(buses.begin(), buses.end(),
+                      [&busId](const Bus &b)
+                      { return b.getId() == busId; });
 
     if (it == buses.end())
     {
-        std::cout << "Error: Bus with ID " << busId << " not found." << std::endl;
+        cout << "Error: Bus with ID " << busId << " not found." << endl;
         return false;
     }
 
     buses.erase(it);
-    std::cout << "Bus " << busId << " removed successfully." << std::endl;
+    cout << "Bus " << busId << " removed successfully." << endl;
 
     return saveToFile();
 }

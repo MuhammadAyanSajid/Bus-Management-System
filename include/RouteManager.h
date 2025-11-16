@@ -1,28 +1,31 @@
-#ifndef ROUTEMANAGER_H
+﻿#ifndef ROUTEMANAGER_H
 #define ROUTEMANAGER_H
 
 #include <string>
 #include <vector>
 #include "Route.h"
 
+using std::string;
+using std::vector;
+
 class RouteManager
 {
 private:
-    std::vector<Route> &routes;
-    std::string dataFile;
+    vector<Route> &routes;
+    string dataFile;
 
 public:
     // Constructor
-    RouteManager(std::vector<Route> &routeList, const std::string &filename);
+    RouteManager(vector<Route> &routeList, const string &filename);
 
     // CRUD operations
     bool addRoute(const Route &newRoute);
-    bool updateRoute(const std::string &routeId, const Route &updatedRoute);
-    bool removeRoute(const std::string &routeId);
+    bool updateRoute(const string &routeId, const Route &updatedRoute);
+    bool removeRoute(const string &routeId);
 
     // Query operations
-    Route *findRoute(const std::string &routeId);
-    bool routeExists(const std::string &routeId) const;
+    Route *findRoute(const string &routeId);
+    bool routeExists(const string &routeId) const;
 
     // Save to file
     bool saveToFile();

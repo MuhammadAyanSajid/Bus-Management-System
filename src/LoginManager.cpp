@@ -1,19 +1,21 @@
-#include "../include/LoginManager.h"
+﻿#include "../include/LoginManager.h"
 #include <iostream>
 #include <iomanip>
 
-LoginManager::LoginManager(std::vector<User> &userList)
+using namespace std;
+
+LoginManager::LoginManager(vector<User> &userList)
     : users(userList), currentUser(nullptr) {}
 
-void LoginManager::displayLoginScreen(const std::string &roleType) const
+void LoginManager::displayLoginScreen(const string &roleType) const
 {
-    std::cout << "\n";
-    std::cout << "========================================" << std::endl;
-    std::cout << "   " << roleType << " LOGIN" << std::endl;
-    std::cout << "========================================" << std::endl;
+    cout << "\n";
+    cout << "========================================" << endl;
+    cout << "   " << roleType << " LOGIN" << endl;
+    cout << "========================================" << endl;
 }
 
-bool LoginManager::authenticate(const std::string &username, const std::string &password, UserRole expectedRole)
+bool LoginManager::authenticate(const string &username, const string &password, UserRole expectedRole)
 {
     for (auto &user : users)
     {
@@ -24,23 +26,23 @@ bool LoginManager::authenticate(const std::string &username, const std::string &
                 if (user.getRole() == expectedRole)
                 {
                     currentUser = &user;
-                    std::cout << "\nLogin successful! Welcome, " << username << "." << std::endl;
+                    cout << "\nLogin successful! Welcome, " << username << "." << endl;
                     return true;
                 }
                 else
                 {
-                    std::cout << "\nError: You don't have " << user.getRoleString() << " privileges." << std::endl;
+                    cout << "\nError: You don't have " << user.getRoleString() << " privileges." << endl;
                     return false;
                 }
             }
             else
             {
-                std::cout << "\nError: Incorrect password." << std::endl;
+                cout << "\nError: Incorrect password." << endl;
                 return false;
             }
         }
     }
-    std::cout << "\nError: User not found." << std::endl;
+    cout << "\nError: User not found." << endl;
     return false;
 }
 
@@ -53,9 +55,9 @@ void LoginManager::logout()
 {
     if (currentUser)
     {
-        std::cout << "\nLogging out " << currentUser->getUsername() << "..." << std::endl;
+        cout << "\nLogging out " << currentUser->getUsername() << "..." << endl;
         currentUser = nullptr;
-        std::cout << "Logged out successfully." << std::endl;
+        cout << "Logged out successfully." << endl;
     }
 }
 
@@ -64,7 +66,7 @@ bool LoginManager::isLoggedIn() const
     return currentUser != nullptr;
 }
 
-User *LoginManager::findUser(const std::string &username)
+User *LoginManager::findUser(const string &username)
 {
     for (auto &user : users)
     {

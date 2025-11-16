@@ -1,17 +1,19 @@
-#include "../include/User.h"
+﻿#include "../include/User.h"
 #include <iomanip>
 
+using namespace std;
+
 User::User() : username(""), password(""), role(UserRole::PASSENGER) {}
-User::User(const std::string &username, const std::string &password, UserRole role)
+User::User(const string &username, const string &password, UserRole role)
     : username(username), password(password), role(role) {}
 
 // Getters
-std::string User::getUsername() const
+string User::getUsername() const
 {
     return username;
 }
 
-std::string User::getPassword() const
+string User::getPassword() const
 {
     return password;
 }
@@ -21,7 +23,7 @@ UserRole User::getRole() const
     return role;
 }
 
-std::string User::getRoleString() const
+string User::getRoleString() const
 {
     switch (role)
     {
@@ -36,12 +38,12 @@ std::string User::getRoleString() const
     }
 }
 
-void User::setUsername(const std::string &username)
+void User::setUsername(const string &username)
 {
     this->username = username;
 }
 
-void User::setPassword(const std::string &password)
+void User::setPassword(const string &password)
 {
     this->password = password;
 }
@@ -51,21 +53,21 @@ void User::setRole(UserRole role)
     this->role = role;
 }
 
-bool User::authenticate(const std::string &inputUsername, const std::string &inputPassword) const
+bool User::authenticate(const string &inputUsername, const string &inputPassword) const
 {
     return (username == inputUsername && password == inputPassword);
 }
 
 void User::display() const
 {
-    std::cout << std::left
-              << std::setw(15) << username
-              << std::setw(15) << "********"
-              << std::setw(15) << getRoleString()
-              << std::endl;
+    cout << left
+         << setw(15) << username
+         << setw(15) << "********"
+         << setw(15) << getRoleString()
+         << endl;
 }
 
-UserRole User::stringToRole(const std::string &roleStr)
+UserRole User::stringToRole(const string &roleStr)
 {
     if (roleStr == "Admin" || roleStr == "ADMIN" || roleStr == "admin")
     {

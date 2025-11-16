@@ -1,30 +1,32 @@
-#ifndef BUS_H
+﻿#ifndef BUS_H
 #define BUS_H
 
 #include <string>
 #include <iostream>
 
+using std::string;
+
 class Bus
 {
 private:
-    std::string id;
+    string id;
     int capacity;
-    std::string model;
-    std::string status;
+    string model;
+    string status;
 
 public:
     Bus();
-    Bus(const std::string &id, int capacity, const std::string &model, const std::string &status);
+    Bus(const string &id, int capacity, const string &model, const string &status);
 
-    std::string getId() const;
+    string getId() const;
     int getCapacity() const;
-    std::string getModel() const;
-    std::string getStatus() const;
+    string getModel() const;
+    string getStatus() const;
 
-    void setId(const std::string &id);
+    void setId(const string &id);
     void setCapacity(int capacity);
-    void setModel(const std::string &model);
-    void setStatus(const std::string &status);
+    void setModel(const string &model);
+    void setStatus(const string &status);
 
     void display() const;
 };
