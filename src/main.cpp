@@ -12,6 +12,16 @@
 #include "../include/DriverDashboard.h"
 #include "../include/PassengerMenu.h"
 
+// Helper function to trim whitespace
+std::string trim(const std::string &str)
+{
+    size_t first = str.find_first_not_of(" \t\n\r");
+    if (first == std::string::npos)
+        return "";
+    size_t last = str.find_last_not_of(" \t\n\r");
+    return str.substr(first, (last - first + 1));
+}
+
 // Helper function to clear input buffer
 void clearInputBuffer()
 {
@@ -105,8 +115,19 @@ int main()
         { // Admin Login
             loginManager.displayLoginScreen("ADMIN");
             clearInputBuffer();
-            std::string username = getInput("Username: ");
-            std::string password = getInput("Password: ");
+            std::string username = trim(getInput("Username: "));
+            std::string password = trim(getInput("Password: "));
+
+            if (username.empty())
+            {
+                std::cout << "\nError: Username cannot be empty." << std::endl;
+                break;
+            }
+            if (password.empty())
+            {
+                std::cout << "\nError: Password cannot be empty." << std::endl;
+                break;
+            }
 
             if (loginManager.authenticate(username, password, UserRole::ADMIN))
             {
@@ -121,8 +142,19 @@ int main()
         { // Driver Login
             loginManager.displayLoginScreen("DRIVER");
             clearInputBuffer();
-            std::string username = getInput("Username: ");
-            std::string password = getInput("Password: ");
+            std::string username = trim(getInput("Username: "));
+            std::string password = trim(getInput("Password: "));
+
+            if (username.empty())
+            {
+                std::cout << "\nError: Username cannot be empty." << std::endl;
+                break;
+            }
+            if (password.empty())
+            {
+                std::cout << "\nError: Password cannot be empty." << std::endl;
+                break;
+            }
 
             if (loginManager.authenticate(username, password, UserRole::DRIVER))
             {

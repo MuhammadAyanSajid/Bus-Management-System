@@ -4,6 +4,27 @@
 #include <limits>
 #include <algorithm>
 
+// Helper function to trim whitespace
+static std::string trim(const std::string &str)
+{
+    size_t first = str.find_first_not_of(" \t\n\r");
+    if (first == std::string::npos)
+        return "";
+    size_t last = str.find_last_not_of(" \t\n\r");
+    return str.substr(first, (last - first + 1));
+}
+
+// Validate non-empty string
+static bool validateNotEmpty(const std::string &str, const std::string &fieldName)
+{
+    if (str.empty())
+    {
+        std::cout << "Error: " << fieldName << " cannot be empty." << std::endl;
+        return false;
+    }
+    return true;
+}
+
 // Constructor
 PassengerMenu::PassengerMenu(RouteManager &rm) : routeManager(rm) {}
 
@@ -111,7 +132,12 @@ void PassengerMenu::searchByOrigin()
     std::cout << "\n--- Search by Origin ---" << std::endl;
 
     clearInputBuffer();
-    std::string origin = getInput("Enter origin location: ");
+    std::string origin = trim(getInput("Enter origin location: "));
+
+    if (!validateNotEmpty(origin, "Origin"))
+    {
+        return;
+    }
 
     // Get all routes (need access to the routes vector)
     // For now, we'll display all and note which match
@@ -126,7 +152,12 @@ void PassengerMenu::searchByDestination()
     std::cout << "\n--- Search by Destination ---" << std::endl;
 
     clearInputBuffer();
-    std::string destination = getInput("Enter destination location: ");
+    std::string destination = trim(getInput("Enter destination location: "));
+
+    if (!validateNotEmpty(destination, "Destination"))
+    {
+        return;
+    }
 
     std::cout << "\nSearching for routes ending at: " << destination << std::endl;
     std::cout << "\nNote: Displaying all routes. Look for routes with matching destination." << std::endl;
@@ -139,7 +170,12 @@ void PassengerMenu::searchByStop()
     std::cout << "\n--- Search by Stop ---" << std::endl;
 
     clearInputBuffer();
-    std::string stop = getInput("Enter stop name: ");
+    std::string stop = trim(getInput("Enter stop name: "));
+
+    if (!validateNotEmpty(stop, "Stop name"))
+    {
+        return;
+    }
 
     std::cout << "\nSearching for routes passing through: " << stop << std::endl;
     std::cout << "\nNote: Displaying all routes. Look for routes with matching stop in Key Stops column." << std::endl;
@@ -152,7 +188,12 @@ void PassengerMenu::viewTravelTime()
     std::cout << "\n--- View Estimated Travel Time ---" << std::endl;
 
     clearInputBuffer();
-    std::string routeId = getInput("Enter Route ID: ");
+    std::string routeId = trim(getInput("Enter Route ID: "));
+
+    if (!validateNotEmpty(routeId, "Route ID"))
+    {
+        return;
+    }
 
     Route *route = routeManager.findRoute(routeId);
     if (route)

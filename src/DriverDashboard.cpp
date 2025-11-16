@@ -2,6 +2,66 @@
 #include "../include/DisplayManager.h"
 #include <iostream>
 #include <limits>
+#include <regex>
+#include <algorithm>
+#include <fstream>
+
+// Helper function to trim whitespace
+static std::string trim(const std::string &str)
+{
+    size_t first = str.find_first_not_of(" \t\n\r");
+    if (first == std::string::npos)
+        return "";
+    size_t last = str.find_last_not_of(" \t\n\r");
+    return str.substr(first, (last - first + 1));
+}
+
+// Validate date format (YYYY-MM-DD)
+static bool validateDate(const std::string &date)
+{
+    std::regex dateRegex(R"(^\d{4}-\d{2}-\d{2}$)");
+    if (!std::regex_match(date, dateRegex))
+    {
+        std::cout << "Error: Date must be in YYYY-MM-DD format (e.g., 2025-11-16)." << std::endl;
+        return false;
+    }
+    int year = std::stoi(date.substr(0, 4));
+    int month = std::stoi(date.substr(5, 2));
+    int day = std::stoi(date.substr(8, 2));
+    if (month < 1 || month > 12)
+    {
+        std::cout << "Error: Month must be between 01 and 12." << std::endl;
+        return false;
+    }
+    if (day < 1 || day > 31)
+    {
+        std::cout << "Error: Day must be between 01 and 31." << std::endl;
+        return false;
+    }
+    if (year < 2000 || year > 2100)
+    {
+        std::cout << "Error: Year must be between 2000 and 2100." << std::endl;
+        return false;
+    }
+    return true;
+}
+
+// Validate contact info
+static bool validateContact(const std::string &contact)
+{
+    std::string trimmedContact = trim(contact);
+    if (trimmedContact.empty())
+    {
+        std::cout << "Error: Contact information cannot be empty." << std::endl;
+        return false;
+    }
+    if (trimmedContact.length() < 7)
+    {
+        std::cout << "Error: Contact information seems too short. Please provide valid phone or email." << std::endl;
+        return false;
+    }
+    return true;
+}
 
 // Constructor
 DriverDashboard::DriverDashboard(ScheduleManager &sm, DriverManager &dm, BusManager &bm, User *driverUser, const std::string &dId)
@@ -104,7 +164,13 @@ void DriverDashboard::viewAssignedSchedule()
     std::cout << "\n--- My Assigned Schedules ---" << std::endl;
 
     clearInputBuffer();
-    std::string date = getInput("Enter date to view schedules (YYYY-MM-DD) or press Enter for all: ");
+    std::string date = trim(getInput("Enter date to view schedules (YYYY-MM-DD) or press Enter for all: "));
+
+    // Validate date if provided
+    if (!date.empty() && !validateDate(date))
+    {
+        return;
+    }
 
     std::vector<Schedule> driverSchedules = scheduleManager.getSchedulesByDriver(driverId);
 
@@ -170,19 +236,21 @@ void DriverDashboard::updateContactInfo()
     std::cout << "Current Contact Info: " << driverProfile->getContactInfo() << std::endl;
 
     clearInputBuffer();
-    std::string newContact = getInput("Enter new contact information: ");
-
-    if (!newContact.empty())
+    std::string newContact;
+    do
     {
-        driverProfile->setContactInfo(newContact);
-        if (driverManager.updateDriver(driverId, *driverProfile))
+        newContact = trim(getInput("Enter new contact information (or press Enter to cancel): "));
+        if (newContact.empty())
         {
-            std::cout << "Contact information updated successfully." << std::endl;
+            std::cout << "Update cancelled." << std::endl;
+            return;
         }
-    }
-    else
+    } while (!validateContact(newContact));
+
+    driverProfile->setContactInfo(newContact);
+    if (driverManager.updateDriver(driverId, *driverProfile))
     {
-        std::cout << "Update cancelled." << std::endl;
+        std::cout << "Contact information updated successfully." << std::endl;
     }
 }
 
@@ -192,8 +260,15 @@ void DriverDashboard::requestDayOff()
     std::cout << "\n--- Request Day Off ---" << std::endl;
 
     clearInputBuffer();
-    std::string date = getInput("Enter date for day off (YYYY-MM-DD): ");
-    std::string reason = getInput("Enter reason (optional): ");
+
+    // Validate date
+    std::string date;
+    do
+    {
+        date = trim(getInput("Enter date for day off (YYYY-MM-DD): "));
+    } while (!validateDate(date));
+
+    std::string reason = trim(getInput("Enter reason (optional): "));
 
     // Log the request to a file
     std::ofstream logFile("data/dayoff_requests.txt", std::ios::app);
