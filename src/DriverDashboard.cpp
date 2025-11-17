@@ -118,14 +118,14 @@ void DriverDashboard::show()
     int choice;
     bool running = true;
 
-    system("cls");
+    
     cout << "\nWelcome to Driver Dashboard, " << driver->getUsername() << "!" << endl;
     cout << "\nPress Enter to continue...";
     cin.get();
 
     while (running)
     {
-        system("cls");
+        
         displayMenu();
         choice = getIntInput("Enter your choice: ");
 
@@ -147,7 +147,7 @@ void DriverDashboard::show()
             viewBusDetails();
             break;
         case 6:
-            system("cls");
+            
             cout << "\nLogging out..." << endl;
             running = false;
             break;
@@ -159,7 +159,7 @@ void DriverDashboard::show()
 
 void DriverDashboard::viewAssignedSchedule()
 {
-    system("cls");
+    
     cout << "\n--- My Assigned Schedules ---" << endl;
 
     clearInputBuffer();
@@ -203,7 +203,7 @@ void DriverDashboard::viewAssignedSchedule()
 
 void DriverDashboard::viewPersonalProfile()
 {
-    system("cls");
+    
     cout << "\n--- My Profile ---" << endl;
 
     Driver *driverProfile = driverManager.findDriver(driverId);
@@ -220,7 +220,7 @@ void DriverDashboard::viewPersonalProfile()
 
 void DriverDashboard::updateContactInfo()
 {
-    system("cls");
+    
     cout << "\n--- Update Contact Information ---" << endl;
 
     Driver *driverProfile = driverManager.findDriver(driverId);
@@ -253,7 +253,7 @@ void DriverDashboard::updateContactInfo()
 
 void DriverDashboard::requestDayOff()
 {
-    system("cls");
+    
     cout << "\n--- Request Day Off ---" << endl;
 
     clearInputBuffer();
@@ -282,7 +282,7 @@ void DriverDashboard::requestDayOff()
 
 void DriverDashboard::viewBusDetails()
 {
-    system("cls");
+    
     cout << "\n--- Bus Details ---" << endl;
 
     clearInputBuffer();

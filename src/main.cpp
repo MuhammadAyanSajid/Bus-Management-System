@@ -92,7 +92,7 @@ int main()
     cout << "\nSystem initialized successfully!" << endl;
     cout << "\nPress Enter to continue...";
     cin.get();
-    system("cls");
+    
 
     LoginManager loginManager(users);
     RouteManager routeManager(routes, ROUTES_FILE);
@@ -104,7 +104,7 @@ int main()
 
     while (running)
     {
-        system("cls");
+        
         displayMainMenu();
         int choice = getIntInput("Enter your choice: ");
 
@@ -112,7 +112,7 @@ int main()
         {
         case 1:
         {
-            system("cls");
+            
             loginManager.displayLoginScreen("ADMIN");
             clearInputBuffer();
             string username = trim(getInput("Username: "));
@@ -140,7 +140,7 @@ int main()
 
         case 2:
         {
-            system("cls");
+            
             loginManager.displayLoginScreen("DRIVER");
             clearInputBuffer();
             string username = trim(getInput("Username: "));
@@ -169,7 +169,7 @@ int main()
 
         case 3:
         {
-            system("cls");
+            
             PassengerMenu passengerMenu(routeManager);
             passengerMenu.show();
             break;
@@ -177,7 +177,7 @@ int main()
 
         case 4:
         {
-            system("cls");
+            
             cout << "\n========================================" << endl;
             cout << "   Thank you for using" << endl;
             cout << "   Bus Management System" << endl;

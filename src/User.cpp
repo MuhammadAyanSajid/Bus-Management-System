@@ -7,7 +7,7 @@ User::User() : username(""), password(""), role(UserRole::PASSENGER) {}
 User::User(const string &username, const string &password, UserRole role)
     : username(username), password(password), role(role) {}
 
-// Getters
+
 string User::getUsername() const
 {
     return username;

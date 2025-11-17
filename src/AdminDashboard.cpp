@@ -176,14 +176,14 @@ void AdminDashboard::show()
     int choice;
     bool running = true;
 
-    system("cls");
+    
     cout << "\nWelcome to Admin Dashboard, " << admin->getUsername() << "!" << endl;
     cout << "\nPress Enter to continue...";
     cin.get();
 
     while (running)
     {
-        system("cls");
+        
         displayMenu();
         choice = getIntInput("Enter your choice: ");
 
@@ -202,7 +202,7 @@ void AdminDashboard::show()
             manageDrivers();
             break;
         case 5:
-            system("cls");
+            
             cout << "\nLogging out..." << endl;
             running = false;
             break;
@@ -219,7 +219,7 @@ void AdminDashboard::manageRoutes()
 
     while (!back)
     {
-        system("cls");
+        
         cout << "\n--- Manage Routes ---" << endl;
         cout << "1. View All Routes" << endl;
         cout << "2. Add Route" << endl;
@@ -260,7 +260,7 @@ void AdminDashboard::viewRoutes()
 
 void AdminDashboard::addRoute()
 {
-    system("cls");
+    
     cout << "\n--- Add New Route ---" << endl;
 
     clearInputBuffer();
@@ -325,7 +325,7 @@ void AdminDashboard::addRoute()
 
 void AdminDashboard::updateRoute()
 {
-    system("cls");
+    
     cout << "\n--- Update Route ---" << endl;
 
     clearInputBuffer();
@@ -394,7 +394,7 @@ void AdminDashboard::updateRoute()
 
 void AdminDashboard::removeRoute()
 {
-    system("cls");
+    
     cout << "\n--- Remove Route ---" << endl;
 
     clearInputBuffer();
@@ -418,7 +418,7 @@ void AdminDashboard::manageBuses()
 
     while (!back)
     {
-        system("cls");
+        
         cout << "\n--- Manage Buses ---" << endl;
         cout << "1. View All Buses" << endl;
         cout << "2. Add Bus" << endl;
@@ -459,7 +459,7 @@ void AdminDashboard::viewBuses()
 
 void AdminDashboard::addBus()
 {
-    system("cls");
+    
     cout << "\n--- Add New Bus ---" << endl;
 
     clearInputBuffer();
@@ -496,7 +496,7 @@ void AdminDashboard::addBus()
 
 void AdminDashboard::updateBus()
 {
-    system("cls");
+    
     cout << "\n--- Update Bus ---" << endl;
 
     clearInputBuffer();
@@ -548,7 +548,7 @@ void AdminDashboard::updateBus()
 
 void AdminDashboard::removeBus()
 {
-    system("cls");
+    
     cout << "\n--- Remove Bus ---" << endl;
 
     clearInputBuffer();
@@ -572,7 +572,7 @@ void AdminDashboard::manageDrivers()
 
     while (!back)
     {
-        system("cls");
+        
         cout << "\n--- Manage Drivers ---" << endl;
         cout << "1. View All Drivers" << endl;
         cout << "2. Add Driver" << endl;
@@ -613,7 +613,7 @@ void AdminDashboard::viewDrivers()
 
 void AdminDashboard::addDriver()
 {
-    system("cls");
+    
     cout << "\n--- Add New Driver ---" << endl;
 
     clearInputBuffer();
@@ -648,7 +648,7 @@ void AdminDashboard::addDriver()
 
 void AdminDashboard::updateDriver()
 {
-    system("cls");
+    
     cout << "\n--- Update Driver ---" << endl;
 
     clearInputBuffer();
@@ -695,7 +695,7 @@ void AdminDashboard::updateDriver()
 
 void AdminDashboard::removeDriver()
 {
-    system("cls");
+    
     cout << "\n--- Remove Driver ---" << endl;
 
     clearInputBuffer();
@@ -719,7 +719,7 @@ void AdminDashboard::manageSchedules()
 
     while (!back)
     {
-        system("cls");
+        
         cout << "\n--- Manage Schedules ---" << endl;
         cout << "1. View All Schedules" << endl;
         cout << "2. Add Schedule" << endl;
@@ -760,7 +760,7 @@ void AdminDashboard::viewSchedules()
 
 void AdminDashboard::addSchedule()
 {
-    system("cls");
+    
     cout << "\n--- Add New Schedule ---" << endl;
 
     clearInputBuffer();
@@ -819,7 +819,7 @@ void AdminDashboard::addSchedule()
 
 void AdminDashboard::updateSchedule()
 {
-    system("cls");
+    
     cout << "\n--- Update Schedule ---" << endl;
 
     clearInputBuffer();
@@ -873,7 +873,7 @@ void AdminDashboard::updateSchedule()
 
 void AdminDashboard::removeSchedule()
 {
-    system("cls");
+    
     cout << "\n--- Remove Schedule ---" << endl;
 
     clearInputBuffer();

@@ -7,7 +7,6 @@ Bus::Bus() : id(""), capacity(0), model(""), status("Inactive") {}
 Bus::Bus(const string &id, int capacity, const string &model, const string &status)
     : id(id), capacity(capacity), model(model), status(status) {}
 
-// Getters
 string Bus::getId() const
 {
     return id;

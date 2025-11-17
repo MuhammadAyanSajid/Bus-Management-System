@@ -15,7 +15,6 @@ using std::vector;
 class DataSaver
 {
 public:
-    // Save functions for each entity type
     static bool saveBuses(const string &filename, const vector<Bus> &buses);
     static bool saveDrivers(const string &filename, const vector<Driver> &drivers);
     static bool saveRoutes(const string &filename, const vector<Route> &routes);
@@ -23,4 +22,4 @@ public:
     static bool saveCredentials(const string &filename, const vector<User> &users);
 };
 
-#endif // DATASAVER_H
+#endif

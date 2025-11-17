@@ -21,37 +21,31 @@ private:
     string dataFile;
 
 public:
-    // Constructor
     ScheduleManager(vector<Schedule> &scheduleList,
                     vector<Route> &routeList,
                     vector<Bus> &busList,
                     vector<Driver> &driverList,
                     const string &filename);
 
-    // CRUD operations
     bool addSchedule(const Schedule &newSchedule);
     bool updateSchedule(const string &scheduleId, const Schedule &updatedSchedule);
     bool removeSchedule(const string &scheduleId);
 
-    // Query operations
     Schedule *findSchedule(const string &scheduleId);
     bool scheduleExists(const string &scheduleId) const;
     vector<Schedule> getSchedulesByDriver(const string &driverId) const;
     vector<Schedule> getSchedulesByDate(const string &date) const;
     vector<Schedule> getSchedulesByBus(const string &busId) const;
 
-    // Save to file
     bool saveToFile();
 
-    // Display schedules
     void displayAllSchedules() const;
     void displaySchedule(const Schedule &schedule) const;
 
-    // Validation and business logic
     bool validateSchedule(const Schedule &schedule) const;
     bool hasValidReferences(const Schedule &schedule) const;
     bool hasBusOverlap(const Schedule &schedule, const string &excludeScheduleId = "") const;
     bool hasDriverOverlap(const Schedule &schedule, const string &excludeScheduleId = "") const;
 };
 
-#endif // SCHEDULEMANAGER_H
+#endif 

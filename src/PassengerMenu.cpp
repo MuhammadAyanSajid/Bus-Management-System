@@ -81,14 +81,14 @@ void PassengerMenu::show()
     int choice;
     bool running = true;
 
-    system("cls");
+    
     cout << "\nWelcome to Passenger Services!" << endl;
     cout << "\nPress Enter to continue...";
     cin.get();
 
     while (running)
     {
-        system("cls");
+        
         displayMenu();
         choice = getIntInput("Enter your choice: ");
 
@@ -110,7 +110,7 @@ void PassengerMenu::show()
             viewTravelTime();
             break;
         case 6:
-            system("cls");
+            
             cout << "\nReturning to main menu..." << endl;
             running = false;
             break;
@@ -122,14 +122,14 @@ void PassengerMenu::show()
 
 void PassengerMenu::viewAllRoutes()
 {
-    system("cls");
+    
     cout << "\n--- All Available Routes ---" << endl;
     routeManager.displayAllRoutes();
 }
 
 void PassengerMenu::searchByOrigin()
 {
-    system("cls");
+    
     cout << "\n--- Search by Origin ---" << endl;
 
     clearInputBuffer();
@@ -147,7 +147,7 @@ void PassengerMenu::searchByOrigin()
 
 void PassengerMenu::searchByDestination()
 {
-    system("cls");
+    
     cout << "\n--- Search by Destination ---" << endl;
 
     clearInputBuffer();
@@ -165,7 +165,7 @@ void PassengerMenu::searchByDestination()
 
 void PassengerMenu::searchByStop()
 {
-    system("cls");
+    
     cout << "\n--- Search by Stop ---" << endl;
 
     clearInputBuffer();
@@ -183,7 +183,7 @@ void PassengerMenu::searchByStop()
 
 void PassengerMenu::viewTravelTime()
 {
-    system("cls");
+    
     cout << "\n--- View Estimated Travel Time ---" << endl;
 
     clearInputBuffer();

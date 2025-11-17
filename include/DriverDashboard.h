@@ -16,12 +16,10 @@ private:
     User *driver;
     string driverId;
 
-    // Helper functions
     void clearInputBuffer();
     string getInput(const string &prompt);
     int getIntInput(const string &prompt);
 
-    // Dashboard functions
     void viewAssignedSchedule();
     void viewPersonalProfile();
     void updateContactInfo();
@@ -29,14 +27,11 @@ private:
     void viewBusDetails();
 
 public:
-    // Constructor
     DriverDashboard(ScheduleManager &sm, DriverManager &dm, BusManager &bm, User *driverUser, const string &dId);
 
-    // Main dashboard
     void show();
 
-    // Display menu
     void displayMenu() const;
 };
 
-#endif // DRIVERDASHBOARD_H
+#endif 

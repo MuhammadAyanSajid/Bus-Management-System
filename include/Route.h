@@ -40,4 +40,4 @@ public:
     string getStopsAsString() const;
 };
 
-#endif // ROUTE_H
+#endif
