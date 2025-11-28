@@ -498,6 +498,8 @@ void AdminDashboard::updateBus()
 {
     
     cout << "\n--- Update Bus ---" << endl;
+    cout << "\nCurrent Bus Information:" << endl;
+    busManager.displayAllBuses();
 
     clearInputBuffer();
     string id = getInput("Enter Bus ID to update: ");
@@ -509,8 +511,6 @@ void AdminDashboard::updateBus()
         return;
     }
 
-    cout << "\nCurrent Bus Information:" << endl;
-    busManager.displayAllBuses();
 
     cout << "Enter New Capacity (or 0 to keep current): ";
     int capacity;
@@ -652,6 +652,8 @@ void AdminDashboard::updateDriver()
     cout << "\n--- Update Driver ---" << endl;
 
     clearInputBuffer();
+    cout << "\nCurrent Driver Information:" << endl;
+    driverManager.displayAllDrivers();
     string id = getInput("Enter Driver ID to update: ");
 
     Driver *driver = driverManager.findDriver(id);
@@ -661,8 +663,6 @@ void AdminDashboard::updateDriver()
         return;
     }
 
-    cout << "\nCurrent Driver Information:" << endl;
-    driverManager.displayAllDrivers();
 
     string name = trim(getInput("Enter New Name (or press Enter to keep current): "));
     string contact = trim(getInput("Enter New Contact Info (or press Enter to keep current): "));
@@ -821,6 +821,8 @@ void AdminDashboard::updateSchedule()
 {
     
     cout << "\n--- Update Schedule ---" << endl;
+    cout << "\nCurrent Schedule Information:" << endl;
+    scheduleManager.displayAllSchedules();
 
     clearInputBuffer();
     string id = getInput("Enter Schedule ID to update: ");
@@ -832,8 +834,6 @@ void AdminDashboard::updateSchedule()
         return;
     }
 
-    cout << "\nCurrent Schedule Information:" << endl;
-    scheduleManager.displayAllSchedules();
 
     string routeId = trim(getInput("Enter New Route ID (or press Enter to keep current): "));
     string busId = trim(getInput("Enter New Bus ID (or press Enter to keep current): "));
