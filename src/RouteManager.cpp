@@ -124,3 +124,43 @@ void RouteManager::displayAllRoutes() const
 {
     DisplayManager::displayRoutes(routes);
 }
+
+vector<Route> RouteManager::findRoutesByOrigin(const string &origin) const
+{
+    vector<Route> foundRoutes;
+    for (const auto &route : routes)
+    {
+        if (route.getOrigin() == origin)
+        {
+            foundRoutes.push_back(route);
+        }
+    }
+    return foundRoutes;
+}
+
+vector<Route> RouteManager::findRoutesByDestination(const string &destination) const
+{
+    vector<Route> foundRoutes;
+    for (const auto &route : routes)
+    {
+        if (route.getDestination() == destination)
+        {
+            foundRoutes.push_back(route);
+        }
+    }
+    return foundRoutes;
+}
+
+vector<Route> RouteManager::findRoutesByStop(const string &stop) const
+{
+    vector<Route> foundRoutes;
+    for (const auto &route : routes)
+    {
+        const auto &stops = route.getKeyStops();
+        if (find(stops.begin(), stops.end(), stop) != stops.end())
+        {
+            foundRoutes.push_back(route);
+        }
+    }
+    return foundRoutes;
+}

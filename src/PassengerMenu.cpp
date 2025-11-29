@@ -81,14 +81,13 @@ void PassengerMenu::show()
     int choice;
     bool running = true;
 
-    
     cout << "\nWelcome to Passenger Services!" << endl;
     cout << "\nPress Enter to continue...";
     cin.get();
 
     while (running)
     {
-        
+
         displayMenu();
         choice = getIntInput("Enter your choice: ");
 
@@ -110,7 +109,7 @@ void PassengerMenu::show()
             viewTravelTime();
             break;
         case 6:
-            
+
             cout << "\nReturning to main menu..." << endl;
             running = false;
             break;
@@ -122,17 +121,16 @@ void PassengerMenu::show()
 
 void PassengerMenu::viewAllRoutes()
 {
-    
+
     cout << "\n--- All Available Routes ---" << endl;
     routeManager.displayAllRoutes();
 }
 
 void PassengerMenu::searchByOrigin()
 {
-    
+
     cout << "\n--- Search by Origin ---" << endl;
 
-    clearInputBuffer();
     string origin = trim(getInput("Enter origin location: "));
 
     if (!validateNotEmpty(origin, "Origin"))
@@ -141,16 +139,22 @@ void PassengerMenu::searchByOrigin()
     }
 
     cout << "\nSearching for routes starting from: " << origin << endl;
-    cout << "\nNote: Displaying all routes. Look for routes with matching origin." << endl;
-    routeManager.displayAllRoutes();
+    vector<Route> foundRoutes = routeManager.findRoutesByOrigin(origin);
+    if (foundRoutes.empty())
+    {
+        cout << "No routes found starting from " << origin << "." << endl;
+    }
+    else
+    {
+        DisplayManager::displayRoutes(foundRoutes);
+    }
 }
 
 void PassengerMenu::searchByDestination()
 {
-    
+
     cout << "\n--- Search by Destination ---" << endl;
 
-    clearInputBuffer();
     string destination = trim(getInput("Enter destination location: "));
 
     if (!validateNotEmpty(destination, "Destination"))
@@ -159,16 +163,22 @@ void PassengerMenu::searchByDestination()
     }
 
     cout << "\nSearching for routes ending at: " << destination << endl;
-    cout << "\nNote: Displaying all routes. Look for routes with matching destination." << endl;
-    routeManager.displayAllRoutes();
+    vector<Route> foundRoutes = routeManager.findRoutesByDestination(destination);
+    if (foundRoutes.empty())
+    {
+        cout << "No routes found ending at " << destination << "." << endl;
+    }
+    else
+    {
+        DisplayManager::displayRoutes(foundRoutes);
+    }
 }
 
 void PassengerMenu::searchByStop()
 {
-    
+
     cout << "\n--- Search by Stop ---" << endl;
 
-    clearInputBuffer();
     string stop = trim(getInput("Enter stop name: "));
 
     if (!validateNotEmpty(stop, "Stop name"))
@@ -177,13 +187,19 @@ void PassengerMenu::searchByStop()
     }
 
     cout << "\nSearching for routes passing through: " << stop << endl;
-    cout << "\nNote: Displaying all routes. Look for routes with matching stop in Key Stops column." << endl;
-    routeManager.displayAllRoutes();
+    vector<Route> foundRoutes = routeManager.findRoutesByStop(stop);
+    if (foundRoutes.empty())
+    {
+        cout << "No routes found passing through " << stop << "." << endl;
+    }
+    else
+    {
+        DisplayManager::displayRoutes(foundRoutes);
+    }
 }
-
 void PassengerMenu::viewTravelTime()
 {
-    
+
     cout << "\n--- View Estimated Travel Time ---" << endl;
 
     clearInputBuffer();

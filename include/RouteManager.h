@@ -28,7 +28,11 @@ public:
 
     void displayAllRoutes() const;
 
+    vector<Route> findRoutesByOrigin(const string &origin) const;
+    vector<Route> findRoutesByDestination(const string &destination) const;
+    vector<Route> findRoutesByStop(const string &stop) const;
+
     bool validateRoute(const Route &route) const;
 };
 
-#endif 
+#endif
